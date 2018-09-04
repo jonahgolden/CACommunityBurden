@@ -1,10 +1,20 @@
 #library(DT)
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
  
 Gettysburg <- "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal"
 
 observeEvent(input$causeHelp1, {showModal(modalDialog(Gettysburg, easyClose = TRUE))})
 
+# observeEvent(input$cZoom, {
+#   
+#   if(input$cZoom){
+#     updateSelectInput(session, "myLHJ", choices = c("Alameda", "Contra Costa"), 
+#                       selected = "Alameda")
+#   }else{
+#     updateSelectInput(session, inputId= "myLHJ", choices = c("Alameda", "Los Angeles"), 
+#                       selected = "Alameda")
+#   }
+# })
   
 output$homeText  <- renderText("Hello")  
 output$cbdMap0   <- renderLeaflet(  cbdMap0Leaflet(input$myLHJ, input$myCAUSE, input$myMeasure, input$myYear, input$myGeo, input$myCutSystem))  
