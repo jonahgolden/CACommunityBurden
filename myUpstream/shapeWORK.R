@@ -12,32 +12,48 @@ library(tmap)
 # "075" San Francisco;  "037" Los Angeles
 
 sf <- filter(shape_Tract,COUNTYFP == "075")
-
-# Transform to projected coordinates
+la <- filter(shape_Tract, COUNTYFP == "037")
 sf <- st_transform(sf, crs = proj1)
-tm_shape(sf) + tm_polygons(col="ALAND")
-# Probably you can get away with this if islands are distinctly smaller
-# this works in m x m even if you don't project but doesn't limit to islands
-# and does not work here
-areas <- st_area(sf) %>% unclass()
-# hist(areas, breaks = 10000, xlim=c(0, 200000))
-# sf2 <- filter(sf, areas>500000)
-# tm_shape(sf2) + tm_polygons(col="ALAND")
+la <- st_transform(la, crs = proj1)
 
-hist(areas, breaks = 10000, xlim=c(0, 200000))
-sf3  <- ms_filter_islands(sf,min_area = 1000000)  
-tm_shape(sf3) + tm_polygons(col="ALAND")
+# warning is fine
+sf_poly <- st_cast(sf, "POLYGON")
+la_poly <- st_cast(la, "POLYGON")
 
-touch <- st_touches(sf)
-notouch <- purrr::map_int(touch, length) < 0
+sf_noislands  <- ms_filter_islands(sf_poly, min_area = 1000000) 
+tm_shape(sf_noislands) + tm_polygons()
+la_noislands <- ms_filter_islands(la_poly, min_area = 337369307) 
+tm_shape(la_noislands) + tm_polygons()
 
-?sf4 <- sf[!(notouch & (areas < 2000000)),]
-tm_shape(sf4) + tm_polygons(col="ALAND")
+# This is not necessarily working because the "islands" are not
+# really islands. For both SF and for LA they have tiny little
+# bits that are attached to either the mainland or the other
+# islands
 
-# I tried a number of purumtations:
-# shape_Tract  <- ms_filter_islands(shape_Tract)
-# shape_Tract  <- ms_filter_islands(shape_Tract,min_area = 1) 
 
-tm_shape(filter(shape_Tract,COUNTYFP == "075")) + tm_polygons(col="ALAND")
+#https://www.flickr.com/photos/stevefaeembra/34500665382
 
-# change to Los Angeles... No island removed...
+
+"06037599100" # this is the big one
+"06037599000" # this is the tiny one
+
+
+tm_shape(la[119,]) + tm_polygons(col="ALAND")
+
+# FF2 FF1 211, disjoint
+# 2FF F1F FF2, identical
+# FF2 F11 212, intersect at boundaries
+
+# big one is two pieces
+relationships <- st_relate(filter(la_poly, GEOID == "06037599100"), la_poly)
+
+# Here is the island with the tiny piece. It says there is 1 identical
+# 2345 disjoint and 1 that matches at intersection
+table(relationships[1,]) 
+
+# Here we have one identical and 2346 match at intersection
+table(relationships[2,])
+
+
+
+
