@@ -38,7 +38,13 @@ cbdMapX <- function(myLHJ= "Amador", myCause=0,myMeasure = "YLLper", myYear=2015
     yearLab <- yG  
     }  
   
-  if (cZoom) {map.1 <- map.1[map.1$county == myLHJ,]}
+  if (cZoom) {
+    if(myLHJ == "CALIFORNIA STATE"){
+      map.1 <- map.1
+    }else{
+    map.1 <- map.1[map.1$county == myLHJ,]
+    }
+  }
 
   if (nrow(dat.1)==0) stop("Sorry friend, but thank goodness there are none of those; could be some other error")
 
