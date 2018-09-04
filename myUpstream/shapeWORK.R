@@ -28,6 +28,11 @@ hist(areas, breaks = 10000, xlim=c(0, 200000))
 sf3  <- ms_filter_islands(sf,min_area = 1000000)  
 tm_shape(sf3) + tm_polygons(col="ALAND")
 
+touch <- st_touches(sf)
+notouch <- purrr::map_int(touch, length) < 0
+
+?sf4 <- sf[!(notouch & (areas < 2000000)),]
+tm_shape(sf4) + tm_polygons(col="ALAND")
 
 # I tried a number of purumtations:
 # shape_Tract  <- ms_filter_islands(shape_Tract)
