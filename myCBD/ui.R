@@ -27,8 +27,12 @@ sidebarPanel(width=3,
   conditionalPanel(condition = fC(c(66)),    actionButton("sdohTab",          "Tab Help"),style=myHelpButtonSty),
   br(),br(),
   
+tags$head(tags$style(HTML('.selectize-input {white-space: nowrap}
+    #myCAUSE+ div>.selectize-dropdown{width: 300px !important}'))), #Hoping to use this to execute HTML tags in causeList
+
+
  conditionalPanel(condition = fC(c(22,23,44,55,66)),    actionButton("causeHelp", "?",style=myButtonSty) ,
-                                                        selectInput("myCAUSE", "Cause:", choices=causeNum36, selected="A")),  # size=30 selectize = F, size=3,
+                                                        div(style = "font-size: 12px", selectInput("myCAUSE", "Cause:", choices=HTML(causeNum36), selected="A"))),  # size=30 selectize = F, size=3,
  conditionalPanel(condition = fC(c(22,23,44)),          checkboxInput("cZoom","Zoom to County",value=FALSE)),
  
  conditionalPanel(condition =  paste(

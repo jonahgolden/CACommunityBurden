@@ -13,8 +13,8 @@
 
 #-- Set Locations and Data Source ----------------------------------------------------------
 
- whichData <-  "real"
- myPlace   <- getwd()   
+ whichData <-  "fake"
+ myPlace   <- getwd()
  STATE     <- "CALIFORNIA"
  yearGrp   <- "2013-2017"
  
@@ -144,8 +144,26 @@ names(lMeasures) <- lMeasuresC
 lMeasuresShort <- lMeasures[c(4,2,6,7,8)] # fix later
 
 causeList36       <- gbdMap0[!is.na(gbdMap0$causeList),c("LABEL","causeList","nameOnly")] %>% arrange(LABEL)
+
+
+causeList36[grepl(pattern = "\\.\\.\\.\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList <- paste0("<p style=\"text-indent: 60px\">", causeList36[grepl(pattern= "\\.\\.\\.\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList, "</p>", sep = "")
+causeList36$causeList <- gsub(pattern = "\\.\\.\\.\\.\\.\\.\\.\\.\\.", replacement = "", x = causeList36[,2])
+
+causeList36[grepl(pattern = "\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList <- paste0("<p style=\"text-indent: 20px\">", causeList36[grepl(pattern= "\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList, "</p>", sep = "")
+causeList36$causeList <- gsub(pattern = "\\.\\.\\.\\.\\.\\.", replacement = "", x = causeList36[,2])
+
+causeList36[grepl(pattern = "\\.\\.\\.", x = causeList36[,2]),]$causeList <- paste0("<b>", causeList36[grepl(pattern= "\\.\\.\\.", x = causeList36[,2]),]$causeList, "</b>", sep = "")
+causeList36$causeList <- gsub(pattern = "\\.\\.\\.", replacement = "", x = causeList36[,2])
+
+# causeList36$causeList <- gsub(".", "\U00A0", causeList36$causeList)
+# causeList36$causeList <- gsub("\\.\\.\\.", "\U00A0", causeList36$causeList)
+# causeList36$causeList <- gsub(".", "&nbsp", causeList36$causeList)
+# causeList36$causeList <- gsub("\\.\\.\\.", "&nbsp", causeList36$causeList)
+
+
 causeNum36        <- causeList36[,"LABEL"]
 names(causeNum36) <- causeList36[,"causeList" ]
+#paste0("<b>",causeList36$causeList,"</b>", " not bold")
 
 phList   <- causeList36[nchar(causeList36$LABEL) <= 3,]
 phCode   <- phList[,"LABEL"]
@@ -178,7 +196,7 @@ if (sjc) {lList <- lList[lList %in% sjconsortium]}
 nC       <- 5
 myColor1 <- rev(brewer.pal(nC,"RdYlBu"))
 
-# myYear <- 2013
+ # myYear <- 2013
 # myLHJ  <- "Colusa"
 # myLev <- 1
 # myCause <- 104
