@@ -145,8 +145,7 @@ lMeasuresShort <- lMeasures[c(4,2,6,7,8)] # fix later
 
 causeList36       <- gbdMap0[!is.na(gbdMap0$causeList),c("LABEL","causeList","nameOnly")] %>% arrange(LABEL)
 
-
-causeList36[grepl(pattern = "\\.\\.\\.\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList <- paste0("<p style=\"text-indent: 60px\">", causeList36[grepl(pattern= "\\.\\.\\.\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList, "</p>", sep = "")
+causeList36[grepl(pattern = "\\.\\.\\.\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList <- paste0("<p style=\"text-indent: 40px\">", causeList36[grepl(pattern= "\\.\\.\\.\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList, "</p>", sep = "")
 causeList36$causeList <- gsub(pattern = "\\.\\.\\.\\.\\.\\.\\.\\.\\.", replacement = "", x = causeList36[,2])
 
 causeList36[grepl(pattern = "\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList <- paste0("<p style=\"text-indent: 20px\">", causeList36[grepl(pattern= "\\.\\.\\.\\.\\.\\.", x = causeList36[,2]),]$causeList, "</p>", sep = "")

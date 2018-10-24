@@ -32,7 +32,7 @@ tags$head(tags$style(HTML('.selectize-input {white-space: nowrap}
 
 
  conditionalPanel(condition = fC(c(22,23,44,55,66)),    actionButton("causeHelp", "?",style=myButtonSty) ,
-                                                        div(style = "font-size: 12px", selectInput("myCAUSE", "Cause:", choices=HTML(causeNum36), selected="A"))),  # size=30 selectize = F, size=3,
+                                                        div(style = "font-size: 12px", selectInput("myCAUSE", "Cause:", choices=causeNum36, selected="A"))),  # size=30 selectize = F, size=3,
  conditionalPanel(condition = fC(c(22,23,44)),          checkboxInput("cZoom","Zoom to County",value=FALSE)),
  
  conditionalPanel(condition =  paste(
@@ -129,7 +129,7 @@ mainPanel(
                                          leafletOutput(   "cbdMapTL",  width=700,height=700),  value = 22),
    tabPanel("Map - Static",              plotOutput(      "cbdMapTS",  height=700,width="100%"),  value = 23),
    tabPanel("Rank Conditions",               plotOutput(      "rankCause", width="100%",height=700),  value = 33),
-   tabPanel("Rank Conditions Table",         dataTableOutput( "rankCauseT"                     ),  value = 45),   #DT::
+   tabPanel("Rank Conditions Table",         dataTableOutput( "rankCauseT" ),  value = 45),   #DT:: or renderDataTable
    tabPanel("Rank Conditions by Sex",     plotOutput(      "rankCauseSex", width="100%",height=700),  value = 34),
    
    tabPanel("Rank Counties/Communities", plotOutput(      "rankGeo",   width="100%",height=1700), value = 44),

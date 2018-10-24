@@ -51,7 +51,7 @@ output$trend      <- renderPlot(         trend(input$myLHJ, input$myCAUSE, input
 output$scatter    <- renderPlotly( scatterSDOH(             input$myCAUSE, input$myMeasure,               input$mySex,                  input$myGeo,input$myX))
 
 output$rankCauseT <- renderDataTable(rankCauseTab(input$myLHJ, input$myYear, input$mySex),
-                                     option=list(columnDefs=list(list(targets=3:5, class="dt-right")),pageLength = 60)) #DT::
+                                     option=list(columnDefs=list(list(targets=3:5, class="dt-right")), pageLength = 60), escape = FALSE) #DT:: when function is deprecated
 
 sexLabel   <- renderText({if (input$mySex == "Total")  sexLabel  <- ""      else sexLabel  <- paste0(", among ",input$mySex,"s")})
 geoLabel   <- renderText({if (!input$cZoom)            geoLab    <- ""      else geoLab    <- paste0(", in ",input$myLHJ)})
