@@ -19,6 +19,8 @@ observeEvent(input$myGeo, {
     if(input$myGeo=="Census Tract"){updateSelectInput(session, "myCAUSE", choices = bigCode) }
     if(input$myGeo=="Community")   {updateSelectInput(session, "myCAUSE", choices = phCode) }
     if(input$myGeo=="County")      {updateSelectInput(session, "myCAUSE", choices = causeNum36)}
+  
+  # div(style = "font-size: 12px", selectInput("myCAUSE", "Cause:", choices=causeNum36, selected="A"))),
 }
 )
 

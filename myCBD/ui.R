@@ -1,6 +1,6 @@
 STATE <- "CALIFORNIA"   # needed this here with CDPH Shiny Server but not otherwise?
 
-
+# myCause <- "#myCause ~ .selectize-control.single .selectize-dropdown [data-value = causeList36$causeList] {myCause : causeList36$causList} "
 # funtion used as "short-cut" when making criteria for conditionals below
 fC <- function(vec) {
   tRep <- length(vec)-1
@@ -27,12 +27,37 @@ sidebarPanel(width=3,
   conditionalPanel(condition = fC(c(66)),    actionButton("sdohTab",          "Tab Help"),style=myHelpButtonSty),
   br(),br(),
   
+
+# tags$head(tags$style(HTML('.selectize-dropdown single form-control shiny-cound-input' style = "display:none; visibility: visible;
+#                           
+#                           class='selectize-dropdown-content' ")))
+# 
+# tags$class()
+# tags$head(tags$class(tags$style(type = 'text/CSS', HTML('.selectize-input {white-space: nowrap} #myCause= div>.choices class = "selectize-input div>. data-value class = something')))),
+
+# tags$head(tags$style(HTML('.selectize-input {white-space:nowrap} #myCause= div>.selectize-dropdown))),
+
 tags$head(tags$style(HTML('.selectize-input {white-space: nowrap}
     #myCAUSE+ div>.selectize-dropdown{width: 300px !important}'))), #Hoping to use this to execute HTML tags in causeList
 
+# tags$head(tags$div(HTML('.selectize-input  #myCause+ div>.selectize-control ')))
 
  conditionalPanel(condition = fC(c(22,23,44,55,66)),    actionButton("causeHelp", "?",style=myButtonSty) ,
-                                                        div(style = "font-size: 12px", selectInput("myCAUSE", "Cause:", choices=causeNum36, selected="A"))),  # size=30 selectize = F, size=3,
+                                                        # div(style = "font-size: 12px", 
+                                                        selectizeInput("myCause", "Cause", choices = div(HTML(causeNum36)),
+                                                                       selected = "A",
+                                                                       options = list(render = I(
+                                                                         '{
+                                                                           option: function(item, escape) {
+      return "<div><strong>" + escape(item.name) + "</strong> (" +
+                                                                           "MPG: " + item.mpg +
+                                                                           ", Transmission: " + item.am == 1 ? "automatic" : "manual" + ")"
+                                                                           
+                                                                         }'
+                                                                       )))),
+                                                            # selectInput("myCAUSE", "Cause:", choices=div(HTML(causeNum36)), selected="A")),
+
+# ),  # size=30 selectize = F, size=3,
  conditionalPanel(condition = fC(c(22,23,44)),          checkboxInput("cZoom","Zoom to County",value=FALSE)),
  
  conditionalPanel(condition =  paste(
@@ -47,7 +72,9 @@ tags$head(tags$style(HTML('.selectize-input {white-space: nowrap}
                              "(!(input.myGeo == 'Community' | input.myGeo == 'Census Tract') && (", fC(c(22,23)),") ) 
                                | (", fC(c(33,34,45,44)),")"  
                              ),
-                                                        sliderInput("myYear","Year:",value=2017,min=2001,max=2017,animate = TRUE,round=TRUE,sep="",step=1)  ),
+                  
+                  tags$style(HTML(".js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #FAFAFA}")),
+                                                        sliderInput("myYear","Year:",value=2017,min=2001,max=2017,animate = TRUE,round=TRUE,sep="", step=1)  ),
 
  conditionalPanel(condition = fC(c(22,23,33,45,44,66)), radioButtons( "mySex",      "Sex:", choices=c("Total","Female","Male"))),
  
