@@ -43,9 +43,11 @@ fC <- function(vec) {   # Same as int_fC() but for a character vector
 # myButtonSty     <- "height:22px; padding-top:0px; margin-top:-5px; float:right;
 # color: #fff; background-color: #337ab7; 
 # border-color: #2e6da4"
-myHelpButtonSty <- "background-color: #694D75;font-size:14px;"
+myHelpButtonSty <- "background-color:#694D75; font-size:14px;"
 # myBoxSty        <- "cursor:pointer; border: 3px solid blue;
 # padding-right:0px;padding-left:0px;"
+mySidebarTextSty <- "float:left; margin: 20px;"
+
 
 # START OF UI --------------------------------------------------------------------
 
@@ -59,10 +61,72 @@ shinyUI(
       tags$style(HTML("
                       @import url('//fonts.googleapis.com/css?family=Open+Sans');
                       * {font-family: 'Open Sans';line-height: 1.5;}
-                      a {text-decoration: none; color: #0000EE;}",
+                      a {text-decoration: none; color: #0000EE;}
+                      ",
                       
-                      ".navbar-brand {display:none;}
-                       .navbar-default .navbar-nav > li > a {font-size: 13px; font-family: Arial}"
+                      "
+                      .navbar-brand {display:none;}
+                      .navbar-default {background-color: #222D32 !important;}
+                      .navbar-default .navbar-nav > li > a {font-size: 13px;}
+                      ",
+                      "
+                      .tabbable {font-family: Arial;}
+                      ",
+                      
+                      "
+                      .navbar-default .navbar-nav > .active > a, 
+                      .navbar-default .navbar-nav > .active > a:focus, 
+                      .navbar-default .navbar-nav > .active > a:hover
+                      {color: white; background-color: #1E282D;}
+                      ",
+                      
+                      "
+                      .tabbable > .nav > .active > a,
+                      .tabbable > .nav > .active > a:focus,
+                      .tabbable > .nav > .active > a:hover
+                      {color: black; }
+                      " #background-color: grey;
+                    
+
+
+                      #   .skin-blue .main-header .logo {
+                      #     background-color: #f4b943;
+                      #   }
+                      # 
+                      # /* logo when hovered */
+                      #   .skin-blue .main-header .logo:hover {
+                      #     background-color: #f4b943;
+                      #   }
+                      # 
+                      # /* navbar (rest of the header) */
+                      #   .skin-blue .main-header .navbar {
+                      #     background-color: #f4b943;
+                      #   }        
+                      # 
+                      # /* main sidebar */
+                      #   .skin-blue .main-sidebar {
+                      #     background-color: #f4b943;
+                      #   }
+                      # 
+                      # /* active selected tab in the sidebarmenu */
+                      #   .skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
+                      #     background-color: #ff0000;
+                      #   }
+                      # 
+                      # /* other links in the sidebarmenu */
+                      #   .skin-blue .main-sidebar .sidebar .sidebar-menu a{
+                      #     background-color: #00ff00;
+                      #       color: #000000;
+                      #   }
+                      # 
+                      # /* other links in the sidebarmenu when hovered */
+                      #   .skin-blue .main-sidebar .sidebar .sidebar-menu a:hover{
+                      #     background-color: #ff69b4;
+                      #   }
+                      # /* toggle button when hovered  */                    
+                      #   .skin-blue .main-header .navbar .sidebar-toggle:hover{
+                      #     background-color: #ff69b4;
+                      #   }"
       )   ),
       includeScript("googleAnalytics.js")
       
@@ -92,23 +156,30 @@ shinyUI(
       dashboardHeader(title = "California Community Burden of Disease and Cost Engine", titleWidth = 550),
       dashboardSidebar(width=300,
                        
-                       # sidebarMenu(id = "menuItem",
-                       #   # menuItem("Home", tabName = "Home"),
-                       #   # menuItem("All Charts", tabName = "charts")
-                       # ),
+                       hidden(
+                       div(id = "plotsMenu",
+                           sidebarMenu(id = "plotsMenuItems",
+                                       menuItem("Show Inputs", tabName = "tabInputs"),
+                                       menuItem("Show Tab Info", tabName = "tabInfo")
+                                       )
+                           ),
+                       div(id = "tabHelpInfo", style = mySidebarTextSty,
+                           htmlOutput("currTabInfo", inline=TRUE)
+                           )
+                       ),
                        
+
                        
                        # Tab help buttons on each tab ----------------------------
-                       conditionalPanel(condition = fC(c("interactiveMapTab","staticMapTab")), actionButton("mapTab",           "Tab Help",style=myHelpButtonSty),br(),br()),
-                       conditionalPanel(condition = fC(c("rankByCauseTab")),                   actionButton("conditionTab",     "Tab Help",style=myHelpButtonSty),br(),br()),
-                       conditionalPanel(condition = fC(c("dataTableTab")),                     actionButton("conditionTableTab","Tab Help",style=myHelpButtonSty),br(),br()),
-                       conditionalPanel(condition = fC(c("rankByCauseAndSexTab")),             actionButton("conditionSexTab",  "Tab Help",style=myHelpButtonSty),br(),br()),
-                       conditionalPanel(condition = fC(c("rankByGeographyTab")),               actionButton("rankGeoTab",       "Tab Help",style=myHelpButtonSty),br(),br()),
-                       conditionalPanel(condition = fC(c("trendTab")),                         actionButton("trendTab",         "Tab Help",style=myHelpButtonSty),br(),br()),
-                       conditionalPanel(condition = fC(c("socialDeterminantsTab")),            actionButton("sdohTab",          "Tab Help",style=myHelpButtonSty),br(),br()),
+                       # conditionalPanel(condition = fC(c("interactiveMapTab","staticMapTab")), actionButton("mapTab",           "Tab Help",style=myHelpButtonSty),br(),br()),
+                       # conditionalPanel(condition = fC(c("rankByCauseTab")),                   actionButton("conditionTab",     "Tab Help",style=myHelpButtonSty),br(),br()),
+                       # conditionalPanel(condition = fC(c("dataTableTab")),                     actionButton("conditionTableTab","Tab Help",style=myHelpButtonSty),br(),br()),
+                       # conditionalPanel(condition = fC(c("rankByCauseAndSexTab")),             actionButton("conditionSexTab",  "Tab Help",style=myHelpButtonSty),br(),br()),
+                       # conditionalPanel(condition = fC(c("rankByGeographyTab")),               actionButton("rankGeoTab",       "Tab Help",style=myHelpButtonSty),br(),br()),
+                       # conditionalPanel(condition = fC(c("trendTab")),                         actionButton("trendTab",         "Tab Help",style=myHelpButtonSty),br(),br()),
+                       # conditionalPanel(condition = fC(c("socialDeterminantsTab")),            actionButton("sdohTab",          "Tab Help",style=myHelpButtonSty),br(),br()),
                        
                        # Input selections on each tab  ----------------------------
-                       #initializeWidgets(),
                        source(paste0(myPlace,"/myFunctions/input_widgets.R"),local = TRUE)$value,
                        
                        # Figure Download buttons ---------------------------------------------------
@@ -119,7 +190,7 @@ shinyUI(
                        conditionalPanel(condition = fC(c("rankByCauseTab")), downloadButton('rankCauseFigure', 'Download Figure'),br(),br()),
                        
                        # Home page side bar text ---------------------------------------------------
-                       div(id = "textHomeTab", style = "float:left; margin: 20px;",
+                       div(id = "textHomeTab", style = mySidebarTextSty,
                            HTML('<left><img src="CDPH.gif" height="125" width="150"></left>'),  # 85  100
                            br(),br(),
                            
@@ -140,7 +211,7 @@ shinyUI(
                            tags$a(href="https://github.com/mcSamuelDataSci/CACommunityBurden","GitHub Site")
                        ),
                        
-                       div(id = "textNotHomeTab", style = "float:left; margin: 20px;",
+                       div(id = "textNotHomeTab", style = mySidebarTextSty,
                            br(),HTML('<left><img src="CDPH.gif" height="125" width="150"></left>')
                        ),
                        
@@ -159,7 +230,7 @@ shinyUI(
                        ),
                        
                        # Text on all side bars ------------------------------------------------------
-                       div(id = "textAllTabs", style = "float:left; margin: 20px;",
+                       div(id = "textAllTabs", style = mySidebarTextSty,
                            helpText(br(),h4(VERSION),style="color:green")
                        )
                        
@@ -169,11 +240,12 @@ shinyUI(
       # MAIN PANNELS-------------------------------------------------------------------------
       dashboardBody(
         useShinyjs(),
-        navbarPage(title = "", id = "bigID", # collapsible = TRUE,
+        navbarPage(title="", id = "bigID", # collapsible = TRUE,
 
                    tabPanel(title = "VISUALIZE", value = "vizTab",
                             
-                            tabsetPanel(type="pills", id="plotsID",
+                            tabsetPanel(type="tab", id="plotsID",
+                            #navbarPage(title="", id="plotsID",
                                         tabPanel(title = "HOME", value = "homeTab",
                                                  br(),align='center',
                                                  h4(HTML(above1),align="left"),
@@ -198,7 +270,7 @@ shinyUI(
                                         ),
                                         
                                         tabPanel(title = "RANKS", value = "ranks",
-                                                 tabsetPanel(type = "tab", id = "rankID",
+                                                 tabsetPanel(type = "pills", id = "rankID",
                                                              tabPanel(title = "RANK BY CAUSE", value = "rankByCauseTab",
                                                                       br(),
                                                                       plotOutput("rankCause", width="100%",height=700)

@@ -1,31 +1,32 @@
+# ===================================================================================
+# Functions for Showing & Hiding sidebar Inputs.  (actual inputs are in input_widgets.R)
+# Jonah Golden, October 8 2019
+# ===================================================================================
 
-# ==============================================================
 
-INPUTS <- c("display","yearRange","level","year","sex","metric","measure","causeHelp","myCAUSE","myLHJ","myGeo","myYear","mySex","levelHelp","myLev","stateCutHelp","myStateCut","myN","measureHelp","myMeasure","myMeasureShort","myYearGrouping","cutmethodHelp","myCutSystem","myLabName","myCI","myRefLine","myLogTrans","myMultiRace","myX","myOSHPDtype","myOSHPDtype_mdcdrg","myVar","myprimetype","myGeoHelpText","myMultiRaceHelpText")
+# Constants =========================================================================
 
-hideAllInputs <- function() {
-  for (input in INPUTS) {
-    hide(input)
-  }
-}
+# List of all show/hide inputs (except 'textHomeTab', and 'textNotHomeTab', which are handled in server)
+INPUTS <- c("tabHelp", "display","yearRange","level","year","sex","metric","measure","causeHelp","myCAUSE","myLHJ","myGeo","myYear","mySex","levelHelp","myLev","stateCutHelp","myStateCut","myN","measureHelp","myMeasure","myMeasureShort","myYearGrouping","cutmethodHelp","myCutSystem","myLabName","myCI","myRefLine","myLogTrans","myMultiRace","myX","myOSHPDtype","myOSHPDtype_mdcdrg","myVar","myprimetype","myGeoHelpText","myMultiRaceHelpText")
 
-TAB_INPUTS <- list("homeTab"=c("textHomeTab"),
-                   "aboutTab"=c("textHomeTab"),
-                   "techDocTab"=c("textHomeTab"),
-                   "otherLinksTab"=c("textHomeTab"),
+# Tab to inputs mapping: Associates each tab with it's input widgets
+TAB_INPUTS <- list("homeTab"=c(),
+                   "aboutTab"=c(),
+                   "techDocTab"=c(),
+                   "otherLinksTab"=c(),
                    "lifeExpectancyTab"=c("myLHJ"),
-                   "interactiveMapTab"=c("causeHelp", "myCAUSE", "myLHJ", "myGeo", "mySex", "stateCutHelp", "myStateCut", "measureHelp", "myMeasure", "cutmethodHelp", "myCutSystem"),
-                   "staticMapTab"=c("causeHelp", "myCAUSE", "myLHJ", "myGeo", "measureHelp", "myMeasure", "cutmethodHelp", "myCutSystem", "myLabName", "mySex", "stateCutHelp", "myStateCut"),
-                   "rankByCauseTab"=c("myLHJ", "mySex", "levelHelp", "myLev", "myN", "myMeasureShort"),
-                   "rankByCauseAndSexTab"=c("levelHelp", "myLev", "myN", "measureHelp", "myMeasure"),
-                   "rankByGeographyTab"=c("causeHelp", "myCAUSE", "myLHJ", "mySex", "measureHelp", "myMeasure", "myRefLine"),
-                   "trendTab"=c("causeHelp", "myCAUSE", "myLHJ", "measureHelp", "myMeasure", "myYearGrouping"),
+                   "interactiveMapTab"=c("tabHelp", "causeHelp","myCAUSE","myLHJ","myGeo","mySex","stateCutHelp","myStateCut","measureHelp","myMeasure","cutmethodHelp","myCutSystem"),
+                   "staticMapTab"=c("tabHelp", "causeHelp", "myCAUSE", "myLHJ", "myGeo", "measureHelp", "myMeasure", "cutmethodHelp", "myCutSystem", "myLabName", "mySex", "stateCutHelp", "myStateCut"),
+                   "rankByCauseTab"=c("tabHelp", "myLHJ", "mySex", "levelHelp", "myLev", "myN", "myMeasureShort"),
+                   "rankByCauseAndSexTab"=c("tabHelp", "levelHelp", "myLev", "myN", "measureHelp", "myMeasure"),
+                   "rankByGeographyTab"=c("tabHelp", "causeHelp", "myCAUSE", "myLHJ", "mySex", "measureHelp", "myMeasure", "myRefLine"),
+                   "trendTab"=c("tabHelp", "causeHelp", "myCAUSE", "myLHJ", "measureHelp", "myMeasure", "myYearGrouping"),
                    "ageTrendTab"=c("causeHelp", "myCAUSE", "myLHJ", "measureHelp", "myMeasure", "myLogTrans"),
                    "raceTrendTab"=c("causeHelp", "myCAUSE", "myLHJ", "myLogTrans", "myMultiRace"),
                    "raceDisparityTab"=c("causeHelp", "myCAUSE", "myLHJ"),
                    "educationTrendTab"=c("causeHelp", "myCAUSE", "myLHJ", "mySex", "measureHelp", "myMeasure", "myLogTrans"),
-                   "dataTableTab"=c("myLHJ"),
-                   "socialDeterminantsTab"=c("causeHelp", "myCAUSE", "myGeo", "mySex", "measureHelp", "myMeasure", "myX"),
+                   "dataTableTab"=c("tabHelp", "myLHJ"),
+                   "socialDeterminantsTab"=c("tabHelp", "causeHelp", "myCAUSE", "myGeo", "mySex", "measureHelp", "myMeasure", "myX"),
                    "hospitalDischargeTab"=c("myLHJ", "myGeo", "mySex", "myN", "myOSHPDtype"),
                    "MDC/DRGTab"=c("myLHJ", "mySex", "myN", "myOSHPDtype_mdcdrg", "myVar"),
                    "hospitalDischargePandDTab"=c("myLHJ", "mySex", "myVar", "myprimetype"),
@@ -34,46 +35,68 @@ TAB_INPUTS <- list("homeTab"=c("textHomeTab"),
                    "riskByCauseTab"=c("level", "year", "sex", "metric", "measure")
 )
 
+# Functions =========================================================================
+
+# Self Explanatory
+hideAllInputs <- function() {
+  for (input in INPUTS) { hide(input) }
+}
+
+# Main function for updating input widgets ------------------------------------------
+updateInputsOnTabId <- function(tabID, myGeo="", myLHJ="", myMeasure="", myMultiRace="") {
+  # 1. Build list of desired inputs
+  curr_tab_inputs = get(tabID, TAB_INPUTS)
+  curr_tab_inputs = c(curr_tab_inputs,
+                      updateMyYearInput(tabID, myGeo, myLHJ),
+                      updateMyCiInput(tabID, myMeasure),
+                      updateMyGeoHelpText(tabID, myGeo),
+                      updateMyMultiRaceHelpText(tabID, myMultiRace))
+  
+  # 2. Show desired inputs, hide rest. (smoother transition in the UI if you show THEN hide):
+  for (input in curr_tab_inputs) { show(input) }  
+  for (input in setdiff(INPUTS, curr_tab_inputs)) { hide(input) }
+}
+
+
+# Helper functions for inputs with more complicated conditionals --------------------
+#   myYear, myCI, myGeoHelpText, myMultiRaceHelpText
+
 updateMyYearInput <- function(tabID, myGeo, myLHJ) {
   if ( (tabID %in% c("rankByCauseTab","dataTableTab")) ||
        ((tabID %in% c("interactiveMapTab","staticMapTab")) && (myGeo=="County")) ||
        ((tabID %in% c("rankByGeographyTab")) && (myLHJ=="CALIFORNIA"))
   ) { return("myYear") }
-  #{ show("myYear") } else { hide("myYear") }
 }
 
 updateMyCiInput <- function(tabID, myMeasure) {
   if ( (tabID %in% c("rankByGeographyTab")) &&
        (myMeasure %in% c("cDeathRate", "aRate"))
   ) { return("myCI") }
-  # { show("myCI") } else { hide("myCI") }
 }
 
 updateMyGeoHelpText <- function(tabID, myGeo) {
   if ( (tabID %in% c("interactiveMapTab","staticMapTab","hospitalMapTab")) &&
        (myGeo=="Census Tract")
   ) { return("myGeoHelpText") }
-  # { show("myGeoHelpText") } else { hide("myGeoHelpText") }
 }
 
 updateMyMultiRaceHelpText <- function(tabID, myMultiRace) {
   if ( (tabID=="raceTrendTab") && (myMultiRace)
   ) { return("myMultiRaceHelpText") }
-  # { show("myMultiRaceHelpText") } else { hide("myMultiRaceHelpText") }
 }
 
-updateInputsOnTabId <- function(tabID, myGeo="", myLHJ="", myMeasure="", myMultiRace="") {
-  tab_inputs = get(tabID, TAB_INPUTS)
-  tab_inputs = c(tab_inputs,
-                 updateMyYearInput(tabID, myGeo, myLHJ),
-                 updateMyCiInput(tabID, myMeasure),
-                 updateMyGeoHelpText(tabID, myGeo),
-                 updateMyMultiRaceHelpText(tabID, myMultiRace))
-  
-  for (input in tab_inputs) { show(input) }
-  for (input in setdiff(INPUTS, tab_inputs)) { hide(input) }
-}
 
+
+
+
+
+
+# Debugging and Alternatives ========================================================
+
+
+
+
+# An alternative method to updateInputsOnTabId:
 # showTabInputs <- function(tabID, myGeo, myLHJ, myMeasure) {
 #   if (tabID == "homeTab") {
 #   } else if (tabID == "aboutTab") {

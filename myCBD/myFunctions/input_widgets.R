@@ -1,10 +1,15 @@
-# Styles for help buttons and boxes
-myButtonSty     <- "height:22px; padding-top:0px; margin-top:10px; float:right; margin-left:80%
-color: #fff; background-color: #337ab7;
-border-color: #2e6da4"
-myHelpButtonSty <- "background-color: #694D75;font-size:14px;"
-myBoxSty <- "cursor:pointer; border: 3px solid blue;
-padding-right:0px;padding-left:0px;"
+# ==============================================================
+# Sidebar inputs live here. (functions for Showing & Hiding them are in input_functions.R)
+# Jonah Golden, October 8 2019
+# ==============================================================
+
+
+# Styles for help buttons and boxes ============================
+
+myButtonSty     <- paste0("height:22px; padding-top:0px; margin-top:10px; float:right; margin-left:80%;",
+                          "color:#fff; background-color:#337ab7; border-color:#2e6da4")
+myHelpButtonSty <- "background-color:#694D75; font-size:14px;"
+myBoxSty <- "cursor:pointer; border:3px solid blue; padding-right:0px; padding-left:0px;"
 
 # tags$style(
 #   ".sidebar {",
@@ -12,12 +17,11 @@ padding-right:0px;padding-left:0px;"
 #   "}" # display:inline-block; padding: 20px; margin-right: 20px;}" # width: 20%; height:100vh;"
 # )
 
-# Help Texts ---------------------------------------------
 
-# Input Widgets ========================================================================================
-hidden(
+# Input Widgets ================================================
+hidden(div(id = "inputs",
   # tabHelp =====================
-  
+  actionButton("tabHelp", "Tab Help", style=myHelpButtonSty),
   
   # myCAUSE ======================
 
@@ -116,6 +120,7 @@ hidden(
                                                           "Disability Adjusted Life Years (DALYs)" = 2,
                                                           "Years Lived with Disability (YLDs)" = 3,
                                                           "Years of Life Lost (YLLs)" = 4), selected = 1)
+)
 )
 
 # Home ==================

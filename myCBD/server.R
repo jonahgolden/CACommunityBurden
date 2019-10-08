@@ -16,22 +16,42 @@ shinyServer(function(input, output,session) {
 
   # IHME WORK (TEMP) ########################
   
+  # #store old current tab as last tab reactive value
+  # rv$last_tab = rv$current_tab
+  # #store new current tab as cur tab reactive value
+  # rv$current_tab = input$selected_tab
+  
+  #init reactive value storage
+  curr_tab <- reactiveValues()
+  
+  #trigger event on tab selection changes
+  observe({
+    curr_tab$big = input$bigID
+    curr_tab$plots = input$plotsID
+    curr_tab$maps = input$mapID
+    curr_tab$ranks = input$rankID
+    curr_tab$trends = input$trendID
+    updateTabItems(session, "plotsMenuItems", "tabInputs")
+  })
+  
   observe({
    if ((input$bigID != "vizTab") || (input$plotsID == "homeTab")) {
-      hideAllInputs()
-      show("textHomeTab")
-    } else {
-      show("textNotHomeTab")
-      inputID <- ifelse(input$plotsID == "maps", input$mapID,
-                        ifelse(input$plotsID == "ranks", input$rankID,
-                               ifelse(input$plotsID == "trends", input$trendID,
-                                      ifelse(input$plotsID == "dataTableTab", "dataTableTab",
-                                             ifelse(input$plotsID == "socialDeterminantsTab", "socialDeterminantsTab",
-                                                    ifelse(input$plotsID == "hospitals", input$hospitalID, NULL)))))
-      )
-      updateInputsOnTabId(inputID, input$myGeo, input$myLHJ, input$myMeasure, input$myMultiRace)
-      hide("textHomeTab")
-    }
+     hideAllInputs()
+     hide("plotsMenu")
+     show("textHomeTab")
+     } else {
+       show("plotsMenu")
+       show("textNotHomeTab")
+       inputID <- ifelse(input$plotsID == "maps", input$mapID,
+                         ifelse(input$plotsID == "ranks", input$rankID,
+                                ifelse(input$plotsID == "trends", input$trendID,
+                                       ifelse(input$plotsID == "dataTableTab", "dataTableTab",
+                                              ifelse(input$plotsID == "socialDeterminantsTab", "socialDeterminantsTab",
+                                                     ifelse(input$plotsID == "hospitals", input$hospitalID, NULL)))))
+       )
+       updateInputsOnTabId(inputID, input$myGeo, input$myLHJ, input$myMeasure, input$myMultiRace)
+       hide("textHomeTab")
+     }
   })
 
 
@@ -76,7 +96,6 @@ shinyServer(function(input, output,session) {
   # )
   #
   #
-
 
 
 # -------------------------------------------------------------------------------
@@ -127,16 +146,42 @@ observeEvent(input$statecutHelp,  {myModal(stateCutHelp)})
 observeEvent(input$measureHelp,   {myModal(measureHelp)})
 observeEvent(input$levelHelp,     {myModal(levelHelp)})
 
-
-
 # generates help "objects" used for tab help buttons, as above
-observeEvent(input$mapTab,            {myModal(mapTab)})
-observeEvent(input$conditionTab,      {myModal(conditionTab)})
-observeEvent(input$conditionTableTab, {myModal(conditionTableTab)})
-observeEvent(input$conditionSexTab,   {myModal(conditionSexTab)})
-observeEvent(input$rankGeoTab,        {myModal(rankGeoTab)})
-observeEvent(input$trendTab,          {myModal(trendTab)})
-observeEvent(input$sdohTab,           {myModal(sdohTab) })
+
+whoNeedsHelp <- reactive({
+  if (curr_tab$big == "vizTab") {
+  if (curr_tab$plots == "dataTableTab") { return(conditionTableTab) }
+  if (curr_tab$plots == "maps") { return(mapTab) }
+  if (curr_tab$plots == "socialDeterminantsTab") { return(sdohTab) }
+  if (curr_tab$plots == "trends") { return(trendTab) }
+  if (curr_tab$plots == "ranks") { 
+    if (curr_tab$ranks == "rankByCauseTab") { return(conditionTab) }
+    if (curr_tab$ranks == "rankByGeographyTab") { return(rankGeoTab) }
+    if (curr_tab$ranks == "rankByCauseAndSexTab") { return(conditionSexTab) }
+  } else (return("Help Info is not yet available for this tab."))
+  }
+})
+
+output$currTabInfo <- renderText(whoNeedsHelp())
+observeEvent(input$tabHelp, {myModal(whoNeedsHelp())})
+
+observeEvent(input$plotsMenuItems, {
+  if (input$plotsMenuItems == "tabInputs") {
+    hide("tabHelpInfo")
+    show("inputs")
+  } else {
+    show("tabHelpInfo")
+    hide("inputs")
+    }
+  })
+
+# observeEvent(input$mapTab,            {myModal(mapTab)})
+# observeEvent(input$conditionTab,      {myModal(conditionTab)})
+# observeEvent(input$conditionTableTab, {myModal(conditionTableTab)})
+# observeEvent(input$conditionSexTab,   {myModal(conditionSexTab)})
+# observeEvent(input$rankGeoTab,        {myModal(rankGeoTab)})
+# observeEvent(input$trendTab,          {myModal(trendTab)})
+# observeEvent(input$sdohTab,           {myModal(sdohTab) })
 
 # generates text "object" used for news you can use buttons, from "...newsUseText.txt" as above
 observeEvent(input$newsUse,           {myModal(newsUse)})
