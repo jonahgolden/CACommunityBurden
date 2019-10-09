@@ -311,6 +311,14 @@ output$trendData <- downloadHandler(
 
 # IHME ----------------------------------------------------------------------------------------------------
 # Arrows Data and plot
+output$arrowsTitles <- renderText({
+  paste0('<div style="margin-bottom:-1em;">',
+         '<h4 style="white-space:nowrap;">', paste(METRICS[[input$metric]]$name, "of", MEASURES[[input$measure]]$short_name, "for", SEXES[[input$sex]], "in all of California"), '</h4>',
+         '<div style="float:left; margin-left: 70px; font-weight: bold;">', input$yearRange[1], " Rankings", '</div>',
+         '<div style="position:relative; left: 250px; font-weight: bold;">', input$yearRange[2], " Rankings", '</div>',
+         '</div>')
+})
+
 output$network <- renderVisNetwork({
   nodes_and_edges <- create_nodes(input$level, input$measure, input$sex, input$metric,
                                   input$yearRange[1], input$yearRange[2], input$display)

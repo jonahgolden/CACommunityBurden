@@ -240,6 +240,15 @@ shinyUI(
                    
                    tabPanel(title = "RANKS", value = "ranks",
                             tabsetPanel(type = "tab", id = "ranksID",
+                                        tabPanel(title = "Arrows", value = "arrowsTab",
+                                                 htmlOutput("arrowsTitles"),
+                                                 div(style="float:left;",
+                                                     visNetworkOutput("network")
+                                                 ),
+                                                 div(style="position:relative; left:-200px; font-weight:bold;",
+                                                     HTML("Legend goes here?")
+                                                 )
+                                        ),
                                         tabPanel(title = "RANK BY CAUSE", value = "rankByCauseTab",
                                                  br(),
                                                  plotOutput("rankCause", width="100%",height=700)
@@ -247,9 +256,7 @@ shinyUI(
                                         tabPanel(title = "RANK BY GEOGRAPHY", value = "rankByGeographyTab",
                                                  plotOutput("rankGeo", width="100%", height=1700)
                                         ),
-                                        tabPanel(title = "Arrows", value = "arrowsTab",
-                                                 visNetworkOutput("network")
-                                        ),
+                                        
                                         tabPanel(title = "Attributable Risks", value = "riskByCauseTab",
                                                  plotlyOutput("riskByCause", height = 600)
                                         )
