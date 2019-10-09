@@ -7,7 +7,7 @@
 # Constants =========================================================================
 
 # List of all show/hide inputs (except 'textHomeTab', and 'textNotHomeTab', which are handled in server)
-INPUTS <- c("tabHelp", "display","yearRange","level","year","sex","metric","measure","causeHelp","myCAUSE","myLHJ","myGeo","myYear","mySex","levelHelp","myLev","stateCutHelp","myStateCut","myN","measureHelp","myMeasure","myMeasureShort","myYearGrouping","cutmethodHelp","myCutSystem","myLabName","myCI","myRefLine","myLogTrans","myMultiRace","myX","myOSHPDtype","myOSHPDtype_mdcdrg","myVar","myprimetype","myGeoHelpText","myMultiRaceHelpText")
+INPUTS <- c("tabHelp", "display","yearRange","level","year","sex","metric","measure","causeHelp","myCAUSE","myLHJ","myGeo","myYear","mySex","levelHelp","myLev","stateCutHelp","myStateCut","myN","measureHelp","myMeasure","myMeasureShort","myYearGrouping","cutmethodHelp","myCutSystem","myLabName","myCI","myRefLine","myLogTrans","myMultiRace","myX","myOSHPDtype","myOSHPDtype_mdcdrg","myVar","myprimetype","myGeoHelpText","myMultiRaceHelpText", "trendDownloads", "rankCauseDownloads")
 
 # Tab to inputs mapping: Associates each tab with it's input widgets
 TAB_INPUTS <- list("homeTab"=c(),
@@ -17,10 +17,10 @@ TAB_INPUTS <- list("homeTab"=c(),
                    "lifeExpectancyTab"=c("myLHJ"),
                    "interactiveMapTab"=c("tabHelp", "causeHelp","myCAUSE","myLHJ","myGeo","mySex","stateCutHelp","myStateCut","measureHelp","myMeasure","cutmethodHelp","myCutSystem"),
                    "staticMapTab"=c("tabHelp", "causeHelp", "myCAUSE", "myLHJ", "myGeo", "measureHelp", "myMeasure", "cutmethodHelp", "myCutSystem", "myLabName", "mySex", "stateCutHelp", "myStateCut"),
-                   "rankByCauseTab"=c("tabHelp", "myLHJ", "mySex", "levelHelp", "myLev", "myN", "myMeasureShort"),
+                   "rankByCauseTab"=c("rankCauseDownloads", "tabHelp", "myLHJ", "mySex", "levelHelp", "myLev", "myN", "myMeasureShort"),
                    "rankByCauseAndSexTab"=c("tabHelp", "levelHelp", "myLev", "myN", "measureHelp", "myMeasure"),
                    "rankByGeographyTab"=c("tabHelp", "causeHelp", "myCAUSE", "myLHJ", "mySex", "measureHelp", "myMeasure", "myRefLine"),
-                   "trendTab"=c("tabHelp", "causeHelp", "myCAUSE", "myLHJ", "measureHelp", "myMeasure", "myYearGrouping"),
+                   "trendTab"=c("trendDownloads", "tabHelp", "causeHelp", "myCAUSE", "myLHJ", "measureHelp", "myMeasure", "myYearGrouping"),
                    "ageTrendTab"=c("causeHelp", "myCAUSE", "myLHJ", "measureHelp", "myMeasure", "myLogTrans"),
                    "raceTrendTab"=c("causeHelp", "myCAUSE", "myLHJ", "myLogTrans", "myMultiRace"),
                    "raceDisparityTab"=c("causeHelp", "myCAUSE", "myLHJ"),
@@ -59,6 +59,10 @@ updateInputsOnTabId <- function(tabID, myGeo="", myLHJ="", myMeasure="", myMulti
 
 
 # Helper functions for inputs with more complicated conditionals --------------------
+getCurrentTabName <- function(curr_tab) {
+}
+
+
 #   myYear, myCI, myGeoHelpText, myMultiRaceHelpText
 
 updateMyYearInput <- function(tabID, myGeo, myLHJ) {

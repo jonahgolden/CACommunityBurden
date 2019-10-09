@@ -44,6 +44,7 @@ fC <- function(vec) {   # Same as int_fC() but for a character vector
 # color: #fff; background-color: #337ab7; 
 # border-color: #2e6da4"
 myHelpButtonSty <- "background-color:#694D75; font-size:14px;"
+myDownloadButtonSty <- "padding-left: 8px; padding-right: 8px; margin: 5px;"
 # myBoxSty        <- "cursor:pointer; border: 3px solid blue;
 # padding-right:0px;padding-left:0px;"
 mySidebarTextSty <- "float:left; margin: 20px;"
@@ -85,49 +86,9 @@ shinyUI(
                       .tabbable > .nav > .active > a:focus,
                       .tabbable > .nav > .active > a:hover
                       {color: black; }
-                      " #background-color: grey;
-                    
-
-
-                      #   .skin-blue .main-header .logo {
-                      #     background-color: #f4b943;
-                      #   }
-                      # 
-                      # /* logo when hovered */
-                      #   .skin-blue .main-header .logo:hover {
-                      #     background-color: #f4b943;
-                      #   }
-                      # 
-                      # /* navbar (rest of the header) */
-                      #   .skin-blue .main-header .navbar {
-                      #     background-color: #f4b943;
-                      #   }        
-                      # 
-                      # /* main sidebar */
-                      #   .skin-blue .main-sidebar {
-                      #     background-color: #f4b943;
-                      #   }
-                      # 
-                      # /* active selected tab in the sidebarmenu */
-                      #   .skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
-                      #     background-color: #ff0000;
-                      #   }
-                      # 
-                      # /* other links in the sidebarmenu */
-                      #   .skin-blue .main-sidebar .sidebar .sidebar-menu a{
-                      #     background-color: #00ff00;
-                      #       color: #000000;
-                      #   }
-                      # 
-                      # /* other links in the sidebarmenu when hovered */
-                      #   .skin-blue .main-sidebar .sidebar .sidebar-menu a:hover{
-                      #     background-color: #ff69b4;
-                      #   }
-                      # /* toggle button when hovered  */                    
-                      #   .skin-blue .main-header .navbar .sidebar-toggle:hover{
-                      #     background-color: #ff69b4;
-                      #   }"
-      )   ),
+                      "
+                      )
+                 ),
       includeScript("googleAnalytics.js")
       
       ),
@@ -156,40 +117,36 @@ shinyUI(
       dashboardHeader(title = "California Community Burden of Disease and Cost Engine", titleWidth = 550),
       dashboardSidebar(width=300,
                        
+                       # Menu Items & tabHelp ---------------------------------------------------
                        hidden(
-                       div(id = "plotsMenu",
-                           sidebarMenu(id = "plotsMenuItems",
-                                       menuItem("Show Inputs", tabName = "tabInputs"),
-                                       menuItem("Show Tab Info", tabName = "tabInfo")
-                                       )
-                           ),
-                       div(id = "tabHelpInfo", style = mySidebarTextSty,
-                           htmlOutput("currTabInfo", inline=TRUE)
-                           )
+                         div(id = "plotsMenu",
+                             sidebarMenu(id = "plotsMenuItems",
+                                         menuItem("Show Inputs", tabName = "tabInputs"),
+                                         menuItem("Show Tab Info", tabName = "tabInfo")
+                             )
+                         ),
+                         div(id = "tabHelpInfo", style = mySidebarTextSty,
+                             htmlOutput("currTabInfo", inline=TRUE)
+                         ),
+                         actionButton("tabHelp", "Tab Help", style=myHelpButtonSty)
                        ),
-                       
 
-                       
-                       # Tab help buttons on each tab ----------------------------
-                       # conditionalPanel(condition = fC(c("interactiveMapTab","staticMapTab")), actionButton("mapTab",           "Tab Help",style=myHelpButtonSty),br(),br()),
-                       # conditionalPanel(condition = fC(c("rankByCauseTab")),                   actionButton("conditionTab",     "Tab Help",style=myHelpButtonSty),br(),br()),
-                       # conditionalPanel(condition = fC(c("dataTableTab")),                     actionButton("conditionTableTab","Tab Help",style=myHelpButtonSty),br(),br()),
-                       # conditionalPanel(condition = fC(c("rankByCauseAndSexTab")),             actionButton("conditionSexTab",  "Tab Help",style=myHelpButtonSty),br(),br()),
-                       # conditionalPanel(condition = fC(c("rankByGeographyTab")),               actionButton("rankGeoTab",       "Tab Help",style=myHelpButtonSty),br(),br()),
-                       # conditionalPanel(condition = fC(c("trendTab")),                         actionButton("trendTab",         "Tab Help",style=myHelpButtonSty),br(),br()),
-                       # conditionalPanel(condition = fC(c("socialDeterminantsTab")),            actionButton("sdohTab",          "Tab Help",style=myHelpButtonSty),br(),br()),
-                       
-                       # Input selections on each tab  ----------------------------
+                       # Input selections on each tab  --------------------------------------------
                        source(paste0(myPlace,"/myFunctions/input_widgets.R"),local = TRUE)$value,
                        
                        # Figure Download buttons ---------------------------------------------------
-                       conditionalPanel(condition = fC(c("trendTab")), downloadButton('trendPNG', 'Download Figure'),br(),br()),     
-                       conditionalPanel(condition = fC(c("trendTab")), downloadButton('trendData', 'Download Data'),br(),br()),     
+                       hidden(
+                         div(id = "trendDownloads", style = "margin: 10px;",
+                             downloadButton('trendPNG', 'Download Figure', style = paste0("float: left;", myDownloadButtonSty)),
+                             downloadButton('trendData', 'Download Data', style = paste0("float: right;", myDownloadButtonSty))
+                         ),
+                         div(id = "rankCauseDownloads", style = "margin: 10px;",
+                             downloadButton('rankCauseFigure', 'Download Figure', style = myDownloadButtonSty)
+                         )
+                       ),
+
+                       # Side bar text -------------------------------------------------------------
                        
-                       #conditionalPanel(condition = fC(c("staticMapTab")), downloadButton('mapFigure', 'Download Map')),       
-                       conditionalPanel(condition = fC(c("rankByCauseTab")), downloadButton('rankCauseFigure', 'Download Figure'),br(),br()),
-                       
-                       # Home page side bar text ---------------------------------------------------
                        div(id = "textHomeTab", style = mySidebarTextSty,
                            HTML('<left><img src="CDPH.gif" height="125" width="150"></left>'),  # 85  100
                            br(),br(),
@@ -240,115 +197,122 @@ shinyUI(
       # MAIN PANNELS-------------------------------------------------------------------------
       dashboardBody(
         useShinyjs(),
-        navbarPage(title="", id = "bigID", # collapsible = TRUE,
-
-                   tabPanel(title = "VISUALIZE", value = "vizTab",
-                            
-                            tabsetPanel(type="tab", id="plotsID",
-                            #navbarPage(title="", id="plotsID",
-                                        tabPanel(title = "HOME", value = "homeTab",
-                                                 br(),align='center',
-                                                 h4(HTML(above1),align="left"),
-                                                 fluidRow(
-                                                   column(width=3,img(id="map1I",      src="mapInt.png",    width="100%", onmouseout="this.src='mapInt.png'",    onmouseover="this.src='mapInt2.png'",    style = myBoxSty)),
-                                                   column(width=3,img(id="map2I",      src="mapStat.png",   width="100%", onmouseout="this.src='mapStat.png'",   onmouseover="this.src='mapStat2.png'",   style = myBoxSty)),
-                                                   column(width=3,img(id="trendI",     src="trends.png",    width="100%", onmouseout="this.src='trends.png'",    onmouseover="this.src='trends2.png'",    style = myBoxSty)),
-                                                   column(width=3,img(id="scatterI",   src="SDOH.png",      width="100%", onmouseout="this.src='SDOH.png'",      onmouseover="this.src='SDOH2.png'",      style = myBoxSty))),
+        navbarPage(title="", id = "navsID", # collapsible = TRUE,
+                   
+                   tabPanel(title = "HOME", value = "home",
+                            br(),align='center',
+                            h4(HTML(above1),align="left"),
+                            fluidRow(
+                              column(width=3,img(id="map1I",      src="mapInt.png",    width="100%", onmouseout="this.src='mapInt.png'",    onmouseover="this.src='mapInt2.png'",    style = myBoxSty)),
+                              column(width=3,img(id="map2I",      src="mapStat.png",   width="100%", onmouseout="this.src='mapStat.png'",   onmouseover="this.src='mapStat2.png'",   style = myBoxSty)),
+                              column(width=3,img(id="trendI",     src="trends.png",    width="100%", onmouseout="this.src='trends.png'",    onmouseover="this.src='trends2.png'",    style = myBoxSty)),
+                              column(width=3,img(id="scatterI",   src="SDOH.png",      width="100%", onmouseout="this.src='SDOH.png'",      onmouseover="this.src='SDOH2.png'",      style = myBoxSty))),
+                            br(),
+                            fluidRow(
+                              column(width=4,img(id="rankgeoI",   src="rankGeo.png",   width="100%", onmouseout="this.src='rankGeo.png'",   onmouseover="this.src='rankGeo2.png'",   style = myBoxSty)),
+                              column(width=4,img(id="ranktableI", src="table.png", width="100%", onmouseout="this.src='table.png'", onmouseover="this.src='table2.png'", style = myBoxSty)),
+                              column(width=4,img(id="rankcauseI", src="rankCause.png",  width="100%", onmouseout="this.src='rankCause.png'",  onmouseover="this.src='rankCause2.png'",  style = myBoxSty)))
+                   ),
+                   
+                   tabPanel(title = "ABOUT", value = "abouts",
+                            tabsetPanel(type="tab", id="aboutsID",
+                                        
+                                        tabPanel(title = "OVERVIEW", value = "overviewTab",
+                                                 br(), 
+                                                 includeMarkdown("About.md")
+                                        ),
+                                        tabPanel(title = "Technical Documentation", value = "techDocTab",
+                                                 br(), 
+                                                 includeMarkdown("technical.md")
+                                        ),
+                                        tabPanel(title = "Links to Other Data", value = "otherLinksTab",
+                                                 br(), 
+                                                 includeMarkdown("ourLinks.md")
+                                        )
+                            )
+                   ),
+                   
+                   
+                   tabPanel(title = "MAPS", value = "maps",
+                            tabsetPanel(type = "tab", id = "mapsID",
+                                        tabPanel(title = "INTERACTIVE MAP", value = "interactiveMapTab",
+                                                 br(), htmlOutput("map_title")  ,
+                                                 leafletOutput("cbdMapTL", width=700, height=700)
+                                        )
+                            )
+                   ),
+                   
+                   tabPanel(title = "RANKS", value = "ranks",
+                            tabsetPanel(type = "tab", id = "ranksID",
+                                        tabPanel(title = "RANK BY CAUSE", value = "rankByCauseTab",
                                                  br(),
-                                                 fluidRow(
-                                                   column(width=4,img(id="rankgeoI",   src="rankGeo.png",   width="100%", onmouseout="this.src='rankGeo.png'",   onmouseover="this.src='rankGeo2.png'",   style = myBoxSty)),
-                                                   column(width=4,img(id="ranktableI", src="table.png", width="100%", onmouseout="this.src='table.png'", onmouseover="this.src='table2.png'", style = myBoxSty)),
-                                                   column(width=4,img(id="rankcauseI", src="rankCause.png",  width="100%", onmouseout="this.src='rankCause.png'",  onmouseover="this.src='rankCause2.png'",  style = myBoxSty)))
+                                                 plotOutput("rankCause", width="100%",height=700)
                                         ),
-                                        tabPanel(title = "MAPS", value = "maps",
-                                                 tabsetPanel(type = "tab", id = "mapID",
-                                                             tabPanel(title = "INTERACTIVE MAP", value = "interactiveMapTab",
-                                                                      br(), htmlOutput("map_title")  ,
-                                                                      leafletOutput("cbdMapTL", width=700, height=700)
-                                                             )
-                                                 )
+                                        tabPanel(title = "RANK BY GEOGRAPHY", value = "rankByGeographyTab",
+                                                 plotOutput("rankGeo", width="100%", height=1700)
                                         ),
+                                        tabPanel(title = "Arrows", value = "arrowsTab",
+                                                 visNetworkOutput("network")
+                                        ),
+                                        tabPanel(title = "Risk by Cause", value = "riskByCauseTab",
+                                                 plotlyOutput("riskByCause", height = 600)
+                                        )
+                            )
+                   ),
+                   
+                   tabPanel(title = "TRENDS", value = "trends",
+                            tabsetPanel(type = "tab", id = "trendsID",
+                                        tabPanel(title = "Trend", value = "trendTab",
+                                                 br(),
+                                                 plotOutput("trend", width="100%",height=700)  # plotlyOutput("trend", width="100%",height=700),  value = "trendTab"),
+                                        ),
+                                        tabPanel(title = "LIFE EXPECTANCY", value = "lifeExpectancyTab",
+                                                 br(),
+                                                 plotOutput("lifeTable", width="100%",height = 700)
+                                        ),
+                                        tabPanel(title = "Age Trend", value = "ageTrendTab",
+                                                 br(),
+                                                 plotOutput("trendAge", width="100%",height=700)
+                                        ),
+                                        tabPanel(title = "Race Trend", value = "raceTrendTab",
+                                                 br(),
+                                                 plotOutput("trendRace", width="100%",height = 700)
+                                        ),
+                                        tabPanel(title = "Race Dispartiy", value = "raceDisparityTab",
+                                                 br(),
+                                                 plotOutput("disparityRace", width="100%",height = 700) # plotlyOutput("disparityRace", width="100%",height = 700)
+                                        ),
+                                        tabPanel(title = "Education Trend", value = "educationTrendTab",
+                                                 br(),
+                                                 plotOutput("trendEducation", width="100%",height=700)
+                                        )
+                            )
+                   ),
+                   
+                   tabPanel(title = "DATA TABLE", value = "dataTableTab",
+                            dataTableOutput("rankCauseT")   #DT::
+                   ),
+                   
+                   tabPanel(title = "SDOH AND HOSPITALS", value = "sdohHospitals",
+                            tabsetPanel(type = "tab", id = "sdohHospitalsID",
                                         
-                                        tabPanel(title = "RANKS", value = "ranks",
-                                                 tabsetPanel(type = "pills", id = "rankID",
-                                                             tabPanel(title = "RANK BY CAUSE", value = "rankByCauseTab",
-                                                                      br(),
-                                                                      plotOutput("rankCause", width="100%",height=700)
-                                                             ),
-                                                             tabPanel(title = "RANK BY GEOGRAPHY", value = "rankByGeographyTab",
-                                                                      plotOutput("rankGeo", width="100%", height=1700)
-                                                             ),
-                                                             tabPanel(title = "Arrows", value = "arrowsTab",
-                                                                      visNetworkOutput("network")
-                                                             ),
-                                                             tabPanel(title = "Risk by Cause", value = "riskByCauseTab",
-                                                                      plotlyOutput("riskByCause", height = 600)
-                                                             )
-                                                 )
-                                        ),
-                                        
-                                        tabPanel(title = "TRENDS", value = "trends",
-                                                 tabsetPanel(type = "tab", id = "trendID",
-                                                             tabPanel(title = "Trend", value = "trendTab",
-                                                                      br(),
-                                                                      plotOutput("trend", width="100%",height=700)  # plotlyOutput("trend", width="100%",height=700),  value = "trendTab"),
-                                                             ),
-                                                             tabPanel(title = "LIFE EXPECTANCY", value = "lifeExpectancyTab",
-                                                                      br(),
-                                                                      plotOutput("lifeTable", width="100%",height = 700)
-                                                             ),
-                                                             tabPanel(title = "Age Trend", value = "ageTrendTab",
-                                                                      br(),
-                                                                      plotOutput("trendAge", width="100%",height=700)
-                                                             ),
-                                                             tabPanel(title = "Race Trend", value = "raceTrendTab",
-                                                                      br(),
-                                                                      plotOutput("trendRace", width="100%",height = 700)
-                                                             ),
-                                                             tabPanel(title = "Race Dispartiy", value = "raceDisparityTab",
-                                                                      br(),
-                                                                      plotOutput("disparityRace", width="100%",height = 700) # plotlyOutput("disparityRace", width="100%",height = 700)
-                                                             ),
-                                                             tabPanel(title = "Education Trend", value = "educationTrendTab",
-                                                                      br(),
-                                                                      plotOutput("trendEducation", width="100%",height=700)
-                                                             )
-                                                 )
-                                        ),
-                                        
-                                        tabPanel(title = "DATA TABLE", value = "dataTableTab",
-                                                 dataTableOutput("rankCauseT")   #DT::
-                                        ),
                                         tabPanel(title = "SOCIAL DETERMINANTS", value = "socialDeterminantsTab",
                                                  br(),
                                                  plotlyOutput("scatter", height=700)
                                         ),
-                                        tabPanel(title = "HOSPITAL", value = "hospitals",
-                                                 tabsetPanel(type = "tab", id = "hospitalID",
-                                                             tabPanel(title = "HOSPITAL DISCHARGE", value = "hospitalDischargeTab",
-                                                                      br(),
-                                                                      plotOutput("OSHPD1", height=700)
-                                                             ),
-                                                             tabPanel(title = "HOSPITAL DISCHARGE--PRIMARY AND ANY DIAGNOSES", value = "hospitalDischargePandDTab",
-                                                                      br(),
-                                                                      plotOutput("any_primary", height = 700)
-                                                             )
-                                                 )
+                                        tabPanel(title = "HOSPITAL DISCHARGE", value = "hospitalDischargeTab",
+                                                 br(),
+                                                 plotOutput("OSHPD1", height=700)
+                                        ),
+                                        tabPanel(title = "HOSPITAL DISCHARGE--PRIMARY AND ANY DIAGNOSES", value = "hospitalDischargePandDTab",
+                                                 br(),
+                                                 plotOutput("any_primary", height = 700)
                                         )
                             )
-                   ),
-                   tabPanel(title = "ABOUT", value = "aboutTab",
-                            br(), 
-                            includeMarkdown("About.md")
-                   ),
-                   tabPanel(title = "Technical Documentation", value = "techDocTab",
-                            br(), 
-                            includeMarkdown("technical.md")
-                   ),
-                   tabPanel(title = "Links to Other Data", value = "otherLinksTab",
-                            br(), 
-                            includeMarkdown("ourLinks.md")
                    )
+                   
+                  
+
         ) # END navbarPage
       ) # END dashboardBody
     ) # END dashboardPage
