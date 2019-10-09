@@ -40,13 +40,9 @@ fC <- function(vec) {   # Same as int_fC() but for a character vector
 }
 
 # # Styles for help buttons and boxes
-# myButtonSty     <- "height:22px; padding-top:0px; margin-top:-5px; float:right;
-# color: #fff; background-color: #337ab7; 
-# border-color: #2e6da4"
-myHelpButtonSty <- "background-color:#694D75; font-size:14px;"
+myTabHelpButtonSty <- "background-color:#694D75; font-size:14px;"
 myDownloadButtonSty <- "padding-left: 8px; padding-right: 8px; margin: 5px;"
-# myBoxSty        <- "cursor:pointer; border: 3px solid blue;
-# padding-right:0px;padding-left:0px;"
+myBoxSty        <- "cursor:pointer; border: 3px solid blue; padding-right:0px;padding-left:0px;"
 mySidebarTextSty <- "float:left; margin: 20px;"
 
 
@@ -128,7 +124,7 @@ shinyUI(
                          div(id = "tabHelpInfo", style = mySidebarTextSty,
                              htmlOutput("currTabInfo", inline=TRUE)
                          ),
-                         actionButton("tabHelp", "Tab Help", style=myHelpButtonSty)
+                         actionButton("tabHelp", "Tab Help", style=myTabHelpButtonSty)
                        ),
 
                        # Input selections on each tab  --------------------------------------------
@@ -155,7 +151,7 @@ shinyUI(
                            
                            h5(tags$a(href="CA_Health_Views.pdf","SEE CCB DATA IN ACTION, in the new 'Measuring Health Status in California'")), br(),
                            
-                           actionButton("newsUse","News and Updates",style=myHelpButtonSty), br(),
+                           actionButton("newsUse","News and Updates",style=myTabHelpButtonSty), br(),
                            h5(tags$a(href="https://www.surveymonkey.com/r/2N2JSTV","Report 'bugs' HERE!")),
                            h5(tags$a(href="https://www.surveymonkey.com/r/ZH9LSR8","Share your feedback HERE!")),
                            helpText(textIntroA,style="color:grey"), br(),
@@ -254,7 +250,7 @@ shinyUI(
                                         tabPanel(title = "Arrows", value = "arrowsTab",
                                                  visNetworkOutput("network")
                                         ),
-                                        tabPanel(title = "Risk by Cause", value = "riskByCauseTab",
+                                        tabPanel(title = "Attributable Risks", value = "riskByCauseTab",
                                                  plotlyOutput("riskByCause", height = 600)
                                         )
                             )

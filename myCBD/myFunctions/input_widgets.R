@@ -5,27 +5,24 @@
 
 # Styles for help buttons and boxes ============================
 
-myButtonSty     <- paste0("height:22px; padding-top:0px; margin-top:10px; float:right; margin-right: 30px;display: inline;", # margin-right: 100px; margin-left:30px;",float:left; 
-                          "color:#fff; background-color:#337ab7; border-color:#2e6da4")
-myHelpButtonSty <- "background-color:#694D75; font-size:14px;"
-myBoxSty <- "cursor:pointer; border:3px solid blue; padding-right:0px; padding-left:0px;"
-
-# tags$style(
-#   ".sidebar {",
-#   "float:left; padding: 0px; margin: 0px;",
-#   "}" # display:inline-block; padding: 20px; margin-right: 20px;}" # width: 20%; height:100vh;"
-# )
-
+myInputHelpButtonSty <- paste0("width:20px;  color:#fff; background-color:#337ab7; border-color:white; padding:0px; font-size: 18px;",
+                               "margin:0px;",
+                               "margin-left:10px;",
+                               "float:right;"
+                               )   #2e6da4
+helpIcon <- "?"
+helpIcon <- icon("question-circle-o") # or: HTML('<i class="fa fa-question-circle-o"></i>')
+helpIcon <- icon("question-circle")   # or: HTML('<i class="fa fa-question-circle"></i>')  
+helpIcon <- icon("question") 
+#helpIcon <- icon("info")
 
 # Input Widgets ================================================
 hidden(
   div(id = "inputs",
-      
+        
       # myCAUSE ======================
-      div(id = "myCause",
-      actionButton(inputId="causeHelp", label="?",style=myButtonSty),
-      dottedSelectInput("myCAUSE", HTML("Cause of Death:"), choices=fullList)    # , selected="0"
-      ),
+      dottedSelectInput("myCAUSE", label=list("Cause of Death:", actionButton(inputId="causeHelp", label=helpIcon, style=myInputHelpButtonSty)), choices=fullList),
+      
       # myLHJ ======================
       selectInput("myLHJ","County/State:",choices=lList,selected=STATE),
       
@@ -42,32 +39,32 @@ hidden(
       radioButtons("mySex", "Sex:", choices=c("Total","Female","Male"), inline=TRUE),
       
       # myLev ======================
-      actionButton( "levelHelp", label="?",style=myButtonSty),
-      radioButtons("myLev", "Levels to show:", choices=c("Top" = "lev1","Public Health" = "lev2","Detail" = "lev3"), inline=TRUE),
+      radioButtons("myLev", label=list("Levels to show:",actionButton( "levelHelp", label=helpIcon,style=myInputHelpButtonSty)),
+                   choices=c("Top" = "lev1","Public Health" = "lev2","Detail" = "lev3"), inline=TRUE),
       
       # myStateCut ======================
-      actionButton("stateCutHelp", label="?", style=myButtonSty),
       # add br(), here to fix spacing, but does not yet....
-      checkboxInput("myStateCut", "State-based cutpoints", value=TRUE),
+      checkboxInput("myStateCut", label=list("State-based cutpoints", actionButton("stateCutHelp", label=helpIcon, style=myInputHelpButtonSty)),
+                   value=TRUE),
       
       # myN ======================
       numericInput( "myN",  "How Many:", value=10,min=1,max= 50),
       
       # myMeasure--uses deathMeasures_Dropdown because the function uses short names in it (?)
-      actionButton( "measureHelp", label="?",style=myButtonSty),
-      selectInput("myMeasure",  "Measure:", choices=deathMeasures_Dropdown),
-      #radioButtons(  "myMeasure",  "Measure:", choices=deathMeasures_Dropdown, selected="YLLper"),
+      selectInput("myMeasure",  label=list("Measure:", actionButton( "measureHelp", label=helpIcon,style=myInputHelpButtonSty)),
+                  choices=deathMeasures_Dropdown),
       
       # myMeasureShort ======================
-      #actionButton( "measureHelp", label="?",style=myButtonSty) ,
-      selectInput( "myMeasureShort",  "Measure Sort Order:", choices=dMNames_short, selected="YLL Rate per 100,000 population"),
+      selectInput("myMeasureShort",  label=list("Measure Sort Order:", actionButton( "measureHelp", label=helpIcon,style=myInputHelpButtonSty)),
+                  choices=dMNames_short, selected="YLL Rate per 100,000 population"),
       
       # myYearGrouping ======================
       radioButtons("myYearGrouping", "Years to Group:", choices=c("One","Three","Five"), inline = TRUE),
       
       # myCutSystem ======================
-      actionButton("cutmethodHelp", label="?",style=myButtonSty),
-      radioButtons( "myCutSystem","Cut-point method:", choices=c("quantile","fisher")),  # pretty
+      
+      radioButtons("myCutSystem",label=list("Cut-point method:", actionButton("cutmethodHelp", label=helpIcon,style=myInputHelpButtonSty)),
+                   choices=c("quantile","fisher")),  # pretty
       
       # myLabName ======================
       checkboxInput("myLabName",  "Place Names", value=FALSE),

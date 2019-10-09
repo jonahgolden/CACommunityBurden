@@ -7,7 +7,7 @@
 # Constants =========================================================================
 
 # List of all show/hide inputs (except 'textHomeTab', and 'textNotHomeTab', which are handled in server)
-INPUTS <- c("tabHelp", "display","yearRange","level","year","sex","metric","measure","causeHelp","myCAUSE","myLHJ","myGeo","myYear","mySex","levelHelp","myLev","stateCutHelp","myStateCut","myN","measureHelp","myMeasure","myMeasureShort","myYearGrouping","cutmethodHelp","myCutSystem","myLabName","myCI","myRefLine","myLogTrans","myMultiRace","myX","myOSHPDtype","myOSHPDtype_mdcdrg","myVar","myprimetype","myGeoHelpText","myMultiRaceHelpText", "trendDownloads", "rankCauseDownloads")
+INPUTS <- c("tabHelp", "display","yearRange","level","year","sex","metric","measure","myCAUSE","myLHJ","myGeo","myYear","mySex","myLev","myStateCut","myN","myMeasure","myMeasureShort","myYearGrouping","myCutSystem","myLabName","myCI","myRefLine","myLogTrans","myMultiRace","myX","myOSHPDtype","myOSHPDtype_mdcdrg","myVar","myprimetype","myGeoHelpText","myMultiRaceHelpText", "trendDownloads", "rankCauseDownloads")
 
 # Tab to inputs mapping: Associates each tab with it's input widgets
 TAB_INPUTS <- list("homeTab"=c(),
@@ -15,22 +15,22 @@ TAB_INPUTS <- list("homeTab"=c(),
                    "techDocTab"=c(),
                    "otherLinksTab"=c(),
                    "lifeExpectancyTab"=c("myLHJ"),
-                   "interactiveMapTab"=c("tabHelp", "causeHelp","myCAUSE","myLHJ","myGeo","mySex","stateCutHelp","myStateCut","measureHelp","myMeasure","cutmethodHelp","myCutSystem"),
-                   "staticMapTab"=c("tabHelp", "causeHelp", "myCAUSE", "myLHJ", "myGeo", "measureHelp", "myMeasure", "cutmethodHelp", "myCutSystem", "myLabName", "mySex", "stateCutHelp", "myStateCut"),
-                   "rankByCauseTab"=c("rankCauseDownloads", "tabHelp", "myLHJ", "mySex", "levelHelp", "myLev", "myN", "myMeasureShort"),
-                   "rankByCauseAndSexTab"=c("tabHelp", "levelHelp", "myLev", "myN", "measureHelp", "myMeasure"),
-                   "rankByGeographyTab"=c("tabHelp", "causeHelp", "myCAUSE", "myLHJ", "mySex", "measureHelp", "myMeasure", "myRefLine"),
-                   "trendTab"=c("trendDownloads", "tabHelp", "causeHelp", "myCAUSE", "myLHJ", "measureHelp", "myMeasure", "myYearGrouping"),
-                   "ageTrendTab"=c("causeHelp", "myCAUSE", "myLHJ", "measureHelp", "myMeasure", "myLogTrans"),
-                   "raceTrendTab"=c("causeHelp", "myCAUSE", "myLHJ", "myLogTrans", "myMultiRace"),
-                   "raceDisparityTab"=c("causeHelp", "myCAUSE", "myLHJ"),
-                   "educationTrendTab"=c("causeHelp", "myCAUSE", "myLHJ", "mySex", "measureHelp", "myMeasure", "myLogTrans"),
+                   "interactiveMapTab"=c("tabHelp", "myCAUSE","myLHJ","myGeo","mySex","myStateCut","myMeasure","myCutSystem"),
+                   "staticMapTab"=c("tabHelp", "myCAUSE", "myLHJ", "myGeo", "myMeasure", "myCutSystem", "myLabName", "mySex", "myStateCut"),
+                   "rankByCauseTab"=c("rankCauseDownloads", "tabHelp", "myLHJ", "mySex", "myLev", "myN", "myMeasureShort"),
+                   "rankByCauseAndSexTab"=c("tabHelp", "myLev", "myN", "myMeasure"),
+                   "rankByGeographyTab"=c("tabHelp", "myCAUSE", "myLHJ", "mySex", "myMeasure", "myRefLine"),
+                   "trendTab"=c("trendDownloads", "tabHelp", "myCAUSE", "myLHJ", "myMeasure", "myYearGrouping"),
+                   "ageTrendTab"=c("myCAUSE", "myLHJ", "myMeasure", "myLogTrans"),
+                   "raceTrendTab"=c("myCAUSE", "myLHJ", "myLogTrans", "myMultiRace"),
+                   "raceDisparityTab"=c("myCAUSE", "myLHJ"),
+                   "educationTrendTab"=c("myCAUSE", "myLHJ", "mySex", "myMeasure", "myLogTrans"),
                    "dataTableTab"=c("tabHelp", "myLHJ"),
-                   "socialDeterminantsTab"=c("tabHelp", "causeHelp", "myCAUSE", "myGeo", "mySex", "measureHelp", "myMeasure", "myX"),
+                   "socialDeterminantsTab"=c("tabHelp", "myCAUSE", "myGeo", "mySex", "myMeasure", "myX"),
                    "hospitalDischargeTab"=c("myLHJ", "myGeo", "mySex", "myN", "myOSHPDtype"),
                    "MDC/DRGTab"=c("myLHJ", "mySex", "myN", "myOSHPDtype_mdcdrg", "myVar"),
                    "hospitalDischargePandDTab"=c("myLHJ", "mySex", "myVar", "myprimetype"),
-                   "hospitalMapTab"=c("causeHelp", "myCAUSE", "myLHJ", "mySex"),
+                   "hospitalMapTab"=c("myCAUSE", "myLHJ", "mySex"),
                    "arrowsTab"=c("display", "level", "measure", "yearRange", "sex", "metric"),
                    "riskByCauseTab"=c("level", "year", "sex", "metric", "measure")
 )

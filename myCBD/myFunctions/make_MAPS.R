@@ -63,9 +63,9 @@ if (nrow(dat.1)==0) stop("Sorry friend, but thank goodness there are none of tho
 
  nCut <- 5
 
- if (myStateCut & myGeo == "county") {myRange <- dat.State[,myMeasure]}
- if (myStateCut & myGeo != "county") {myRange <- dat.1[,myMeasure]}
- if (!myStateCut)                    {myRange <- (map.1 %>% st_set_geometry(NULL))[,myMeasure]}
+ if ((myStateCut==TRUE) && (myGeo == "county")) {myRange <- dat.State[,myMeasure]}
+ if ((myStateCut==TRUE) && (myGeo != "county")) {myRange <- dat.1[,myMeasure]}
+ if (myStateCut==FALSE)                    {myRange <- (map.1 %>% st_set_geometry(NULL))[,myMeasure]}
 
 # fix NAs ?
 
