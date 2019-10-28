@@ -137,8 +137,13 @@ shinyUI(
                        hidden(
                          div(id = "plotsMenu",
                              sidebarMenu(id = "plotsMenuItems",
+<<<<<<< HEAD
                                          menuItem("Show Inputs", tabName = "tabInputs"),
                                          menuItem("Show Tab Info", tabName = "tabInfo")
+=======
+                                         menuItem("Show Visualization Controls", tabName = "tabInputs"),
+                                         menuItem("Show Tab Information", tabName = "tabInfo")
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                              )
                          ),
                          div(id = "tabHelpInfo", style = mySidebarTextSty,
@@ -208,7 +213,11 @@ shinyUI(
         useShinyjs(),
         navbarPage(title="", id = "navsID", # collapsible = TRUE,
                    
+<<<<<<< HEAD
                    tabPanel(title = "HOME", value = "home",
+=======
+                   tabPanel(title = strong("HOME"), value = "home",
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                             br(),align='center',
                             h4(HTML(above1),align="left"),
                             fluidRow(
@@ -223,6 +232,7 @@ shinyUI(
                               column(width=4,img(id="rankcauseI", src="rankCause.png",  width="100%", onmouseout="this.src='rankCause.png'",  onmouseover="this.src='rankCause2.png'",  style = myBoxSty)))
                    ),
                    
+<<<<<<< HEAD
                    tabPanel(title = "ABOUT", value = "abouts",
                             tabsetPanel(type="tab", id="aboutsID",
                                         
@@ -243,6 +253,12 @@ shinyUI(
                    
                    
                    tabPanel(title = "MAPS", value = "maps",
+=======
+                  
+                   
+                   
+                   tabPanel(title = strong("MAPS"), value = "maps",
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                             tabsetPanel(type = "tab", id = "mapsID",
                                         tabPanel(title = "INTERACTIVE MAP", value = "interactiveMapTab",
                                                  br(), htmlOutput("map_title")  ,
@@ -251,6 +267,7 @@ shinyUI(
                             )
                    ),
                    
+<<<<<<< HEAD
                    tabPanel(title = "RANKS", value = "ranks",
                             tabsetPanel(type = "tab", id = "ranksID",
                                         tabPanel(title = "RANK BY CAUSE", value = "rankByCauseTab",
@@ -258,6 +275,15 @@ shinyUI(
                                                  plotOutput("rankCause", width="100%",height=700)
                                         ),
                                         tabPanel(title = "RANK BY GEOGRAPHY", value = "rankByGeographyTab",
+=======
+                   tabPanel(title = strong("RANKS"), value = "ranks",
+                            tabsetPanel(type = "tab", id = "ranksID",
+                                        tabPanel(title = "RANK BY CAUSE - Deaths", value = "rankByCauseTab",
+                                                 br(),
+                                                 plotOutput("rankCause", width="100%",height=700)
+                                        ),
+                                        tabPanel(title = "RANK BY GEOGRAPHY - Deaths", value = "rankByGeographyTab",
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                                                  plotOutput("rankGeo", width="100%", height=1700)
                                         ),
                                         
@@ -277,16 +303,29 @@ shinyUI(
                             )
                    ),
                    
+<<<<<<< HEAD
                    tabPanel(title = "TRENDS", value = "trends",
                             tabsetPanel(type = "tab", id = "trendsID",
                                         tabPanel(title = "Trend", value = "trendTab",
                                                  br(),
                                                  plotOutput("trend", width="100%",height=700)  # plotlyOutput("trend", width="100%",height=700),  value = "trendTab"),
                                         ),
+=======
+                   tabPanel(title = strong("TRENDS"), value = "trends",
+                            tabsetPanel(type = "tab", id = "trendsID",
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                                         tabPanel(title = "LIFE EXPECTANCY", value = "lifeExpectancyTab",
                                                  br(),
                                                  plotOutput("lifeTable", width="100%",height = 700)
                                         ),
+<<<<<<< HEAD
+=======
+                                        tabPanel(title = "Sex Trend", value = "trendTab",
+                                                 br(),
+                                                 plotOutput("trend", width="100%",height=700)  # plotlyOutput("trend", width="100%",height=700),  value = "trendTab"),
+                                        ),
+                                        
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                                         tabPanel(title = "Age Trend", value = "ageTrendTab",
                                                  br(),
                                                  plotOutput("trendAge", width="100%",height=700)
@@ -295,10 +334,14 @@ shinyUI(
                                                  br(),
                                                  plotOutput("trendRace", width="100%",height = 700)
                                         ),
+<<<<<<< HEAD
                                         tabPanel(title = "Race Dispartiy", value = "raceDisparityTab",
                                                  br(),
                                                  plotOutput("disparityRace", width="100%",height = 700) # plotlyOutput("disparityRace", width="100%",height = 700)
                                         ),
+=======
+                                        
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                                         tabPanel(title = "Education Trend", value = "educationTrendTab",
                                                  br(),
                                                  plotOutput("trendEducation", width="100%",height=700)
@@ -306,17 +349,46 @@ shinyUI(
                             )
                    ),
                    
+<<<<<<< HEAD
                    tabPanel(title = "DATA TABLE", value = "dataTableTab",
                             dataTableOutput("rankCauseT")   #DT::
                    ),
                    
                    tabPanel(title = "SDOH AND HOSPITALS", value = "sdohHospitals",
                             tabsetPanel(type = "tab", id = "sdohHospitalsID",
+=======
+                   tabPanel(title = strong("DISPARITIES"), value = "disparities",
+                            tabsetPanel(type = "tab", id = "disparitiesID",
+                                        tabPanel(title = "Race Dispartiy", value = "raceDisparityTab",
+                                                 br(),
+                                                 plotOutput("disparityRace", width="100%",height = 700) # plotlyOutput("disparityRace", width="100%",height = 700)
+                                        )
+                            )
+                   ),
+                   
+                   
+                   
+                   tabPanel(title = strong("SDOH"), value = "sdoh",
+                            tabsetPanel(type = "tab", id = "sdohID",
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                                         
                                         tabPanel(title = "SOCIAL DETERMINANTS", value = "socialDeterminantsTab",
                                                  br(),
                                                  plotlyOutput("scatter", height=700)
+<<<<<<< HEAD
                                         ),
+=======
+                                        )
+                            )
+                   ),
+                   
+                   
+                   
+                   tabPanel(title = strong("HOSPITALIZATIONS"), value = "hospitalizations",
+                            tabsetPanel(type = "tab", id = "hospitalizationsID",
+                                        
+                                       
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                                         tabPanel(title = "HOSPITAL DISCHARGE", value = "hospitalDischargeTab",
                                                  br(),
                                                  plotOutput("OSHPD1", height=700)
@@ -326,6 +398,38 @@ shinyUI(
                                                  plotOutput("any_primary", height = 700)
                                         )
                             )
+<<<<<<< HEAD
+=======
+                   ),
+                   
+                   
+                   
+                   tabPanel(title = strong("DATA TABLE"), value = "dataTableTab",
+                            dataTableOutput("rankCauseT")   #DT::
+                   ),
+                   
+                   
+                   
+                   
+                
+                   
+                   tabPanel(title = strong("ABOUT"), value = "abouts",
+                            tabsetPanel(type="tab", id="aboutsID",
+                                        
+                                        tabPanel(title = "OVERVIEW", value = "overviewTab",
+                                                 br(), 
+                                                 includeMarkdown("About.md")
+                                        ),
+                                        tabPanel(title = "Technical Documentation", value = "techDocTab",
+                                                 br(), 
+                                                 includeMarkdown("technical.md")
+                                        ),
+                                        tabPanel(title = "Links to Other Data", value = "otherLinksTab",
+                                                 br(), 
+                                                 includeMarkdown("ourLinks.md")
+                                        )
+                            )
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                    )
                    
                   

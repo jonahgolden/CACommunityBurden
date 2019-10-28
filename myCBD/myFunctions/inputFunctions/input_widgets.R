@@ -11,7 +11,11 @@ myInputHelpButtonSty <- paste0("width:20px;  color:#fff; background-color:#337ab
                                "float:right;"
                                )   #2e6da4
 helpIcon <- "?"
+<<<<<<< HEAD
 helpIcon <- icon("question-circle-o") # or: HTML('<i class="fa fa-question-circle-o"></i>')
+=======
+#helpIcon <- icon("question-circle-o") # or: HTML('<i class="fa fa-question-circle-o"></i>')
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
 #helpIcon <- icon("question-circle")   # or: HTML('<i class="fa fa-question-circle"></i>')  
 #helpIcon <- icon("question") 
 #helpIcon <- icon("info")

@@ -13,6 +13,9 @@
 # Load functions that determine what to show based on current tab selection
 source(paste0(myPlace,"/myFunctions/inputFunctions/input_functions.R"))
 
+# Load functions that determine what to show based on current tab selection
+source(paste0(myPlace,"/myFunctions/inputFunctions/input_functions.R"))
+
 shinyServer(function(input, output,session) {
 
   # Store current navID (big tabs) and tabID (subtabs) for use throughout Server
@@ -25,9 +28,17 @@ shinyServer(function(input, output,session) {
                           "maps" = input$mapsID,
                           "ranks" = input$ranksID,
                           "trends" = input$trendsID,
+<<<<<<< HEAD
                           "sdohHospitals" = input$sdohHospitalsID,
                           current$nav)
     print(current$tab)
+=======
+                          "disparities" = input$disparitiesID,
+                          "hospitalizations" = input$hospitalizationsID,
+                          "sdoh" = input$sdohID,
+                          current$nav)
+    print(current$tab) #MCS?
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
     updateTabItems(session, "plotsMenuItems", "tabInputs")  # Always set menu to tabInputs, not tabInfo
   })
   
@@ -45,7 +56,11 @@ shinyServer(function(input, output,session) {
     } else {
       show("plotsMenu")
       show("textNotHomeTab")
+<<<<<<< HEAD
       updateInputsOnTabId(current$tab, input$myGeo, input$myLHJ, input$myMeasure, input$myMultiRace)
+=======
+      updateInputsOnTabId(current$tab, input$myGeo, input$myLHJ, input$myMeasure, input$myMultiRace)  #MCS?
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
       hide("textHomeTab")
     }
   })
@@ -89,6 +104,7 @@ onclick("trendI",     updatePanels(navsID = "trends",        tabID = "trendTab")
 onclick("scatterI",   updatePanels(navsID = "sdohHospitals", tabID = "socialDeterminantsTab"))
 
   
+<<<<<<< HEAD
 # shinyjs::onclick("map1I",     updateTabsetPanel(session,inputId="ID",selected="22"))  
 # shinyjs::onclick("map2I",     updateTabsetPanel(session,inputId="ID",selected="23"))  
 # shinyjs::onclick("rankcauseI",updateTabsetPanel(session,inputId="ID",selected="33"))  
@@ -96,6 +112,9 @@ onclick("scatterI",   updatePanels(navsID = "sdohHospitals", tabID = "socialDete
 # shinyjs::onclick("rankgeoI",  updateTabsetPanel(session,inputId="ID",selected="44"))  
 # shinyjs::onclick("trendI",    updateTabsetPanel(session,inputId="ID",selected="55"))  
 # shinyjs::onclick("scatterI",  updateTabsetPanel(session,inputId="ID",selected="66"))  
+=======
+  
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
 
 # -------------------------------------------------------------------------------
 
@@ -140,12 +159,21 @@ observeEvent(input$plotsMenuItems, {
     hide("inputs")
   }
 })
+<<<<<<< HEAD
 
 output$currTabInfo <- renderText(whoNeedsHelp())
 
 # tabHelp as a button
 observeEvent(input$tabHelp, {myModal(whoNeedsHelp())})
 
+=======
+
+output$currTabInfo <- renderText(whoNeedsHelp())
+
+# tabHelp as a button
+observeEvent(input$tabHelp, {myModal(whoNeedsHelp())})
+
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
 # observeEvent(input$mapTab,            {myModal(mapTab)})
 # observeEvent(input$conditionTab,      {myModal(conditionTab)})
 # observeEvent(input$conditionTableTab, {myModal(conditionTableTab)})

@@ -21,13 +21,22 @@ TAB_INPUTS <- list("homeTab"=c(),
                    "rankByCauseAndSexTab"=c("tabHelp", "myLev", "myN", "myMeasure"),
                    "rankByGeographyTab"=c("tabHelp", "myCAUSE", "myLHJ", "mySex", "myMeasure", "myRefLine", "suppressionNote", "yllNote"),
                    "trendTab"=c("trendDownloads", "tabHelp", "myCAUSE", "myLHJ", "myMeasure", "myYearGrouping", "suppressionNote", "yllNote"),
+<<<<<<< HEAD
                    "ageTrendTab"=c("myCAUSE", "myLHJ", "myMeasure", "myLogTrans"),
                    "raceTrendTab"=c("myCAUSE", "myLHJ", "myLogTrans", "myMultiRace", "suppressionNote", "yllNote"),
+=======
+                   "ageTrendTab"=c("myCAUSE", "myLHJ", "myLogTrans"),
+                   "raceTrendTab"=c("myCAUSE", "myLHJ", "myMeasure","myLogTrans", "myMultiRace", "suppressionNote", "yllNote"),
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                    "raceDisparityTab"=c("myCAUSE", "myLHJ", "suppressionNote", "yllNote"),
                    "educationTrendTab"=c("myCAUSE", "myLHJ", "mySex", "myMeasure", "myLogTrans", "suppressionNote", "yllNote"),
                    "dataTableTab"=c("tabHelp", "myLHJ", "suppressionNote", "yllNote"),
                    "socialDeterminantsTab"=c("tabHelp", "myCAUSE", "myGeo", "mySex", "myMeasure", "myX", "suppressionNote", "yllNote"),
+<<<<<<< HEAD
                    "hospitalDischargeTab"=c("myLHJ", "myGeo", "mySex", "myN", "myOSHPDtype"),
+=======
+                   "hospitalDischargeTab"=c("myLHJ", "myGeo", "mySex", "myN", "myVar","myOSHPDtype"),
+>>>>>>> 1eb8ed598656c4d9559fd408899d56dee8ea54d2
                    "MDC/DRGTab"=c("myLHJ", "mySex", "myN", "myOSHPDtype_mdcdrg", "myVar"),
                    "hospitalDischargePandDTab"=c("myLHJ", "mySex", "myVar", "myprimetype"),
                    "hospitalMapTab"=c("myCAUSE", "myLHJ", "mySex"),
