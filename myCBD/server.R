@@ -80,8 +80,8 @@ shinyServer(function(input, output,session) {
 
   # Function to update panel selection (or do anything else..) on img click
 updatePanels <- function(navsID, tabID="") {
-  updateTabsetPanel(session, inputId="navsID", selected = navsID)
-  updateTabsetPanel(session, inputId=paste0(navsID, "sID"),   selected=tabID)
+  updateTabsetPanel(session, inputId="navsID", selected = navsID)                # navigate to upper level tab
+  updateTabsetPanel(session, inputId=paste0(navsID, "ID"),   selected=tabID)     #  then to sub-tab if there is one
 }
 
 onclick("map1I",      updatePanels(navsID = "maps",          tabID = "interactiveMapTab"))
@@ -90,11 +90,9 @@ onclick("rankcauseI", updatePanels(navsID = "ranks",         tabID = "rankByCaus
 onclick("ranktableI", updatePanels(navsID = "dataTableTab"))
 onclick("rankgeoI",   updatePanels(navsID = "ranks",         tabID = "rankByGeographyTab"))
 onclick("trendI",     updatePanels(navsID = "trends",        tabID = "trendTab"))
-onclick("scatterI",   updatePanels(navsID = "sdohHospitals", tabID = "socialDeterminantsTab"))
+onclick("scatterI",   updatePanels(navsID = "sdoh",          tabID = "socialDeterminantsTab"))
 
   
-  
-
 # -------------------------------------------------------------------------------
 
 # function used below as "shortcut" for formating each Modal
@@ -144,7 +142,7 @@ observeEvent(input$plotsMenuItems, {
 output$currTabInfo <- renderText(whoNeedsHelp())
 
 # tabHelp as a button
-observeEvent(input$tabHelp, {myModal(whoNeedsHelp())})
+# observeEvent(input$tabHelp, {myModal(whoNeedsHelp())})
 
 # observeEvent(input$mapTab,            {myModal(mapTab)})
 # observeEvent(input$conditionTab,      {myModal(conditionTab)})
