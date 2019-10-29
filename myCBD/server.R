@@ -11,6 +11,7 @@
 #
 # =============================================================================
 
+
 # Load functions that determine what to show based on current tab selection
 source(paste0(myPlace,"/myFunctions/inputFunctions/input_functions.R"))
 
@@ -336,7 +337,11 @@ output$network <- renderVisNetwork({
 
 # RiskByCause Data and plot
 FilteredRiskByCause <- reactive({
-  return(FilterRiskByCause( input$level, input$year, input$sex, input$metric, input$measure))
+  return(FilterRiskByCause(input$level, input$year, input$sex, input$metric, input$measure))
+})
+
+output$riskByCauseTitle <- renderUI({
+  h4(strong(HTML(paste0(METRICS[[input$metric]]$name, " of ", MEASURES[[input$measure]]$short_name, " for ", SEXES[[input$sex]]$name, ", ", input$year))))
 })
 
 output$riskByCause <- renderPlotly({

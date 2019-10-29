@@ -247,10 +247,11 @@ shinyUI(
                                         ),
                                         
                                         tabPanel(title = "Attributable Risks", value = "riskByCauseTab",
+                                                 htmlOutput("riskByCauseTitle"),
                                                  plotlyOutput("riskByCause", height = 600)
                                         ),
                                         tabPanel(title = "Arrows", value = "arrowsTab",
-                                                 htmlOutput("arrowsTitles"),
+                                                 br(), htmlOutput("arrowsTitles"),
                                                  visNetworkOutput("network")
                                                  # fluidRow(
                                                  #   column(10, visNetworkOutput("network")),

@@ -65,7 +65,6 @@ FilterRiskByCause <- function(level_id_in, year_id_in, sex_id_in, metric_id_in, 
   
   return(list(data = filtered_data,
               xlabel = paste(METRICS[[metric_id_in]]$name, MEASURES[[measure_id_in]]$short_name, sep=" of "),
-              title = paste0("California, ", SEXES[[sex_id_in]]$name, ", ", year_id_in),
               measure = MEASURES[[measure_id_in]]$short_name,
               metric = METRICS[[metric_id_in]]$name)
   )
@@ -99,7 +98,7 @@ RiskByCausePlot <- function(data_in) {
                         )
               ) +
     geom_bar(stat = "identity", lwd=0.2, color="white") +
-    labs(title=data_in$title, x="", y=data_in$xlabel) +
+    labs(x="", y=data_in$xlabel) +
     scale_fill_manual(name="Cause", values=BAR_PALETTE) +
     theme_classic() +
     #theme(legend.position = "right",legend.text = element_text(margin = margin(r = 10, unit = "pt")), legend.key.size = unit(4.0, 'cm')) +
