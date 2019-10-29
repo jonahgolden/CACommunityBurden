@@ -6,7 +6,10 @@
 riskByCauseData <- readRDS(path(myPlace, "/myData/risk-by-cause.RDS"))
 
 # Constants ==========================================================================
-SHOW_TOP = 25  # Could be a user input if we want
+SHOW_TOP <- switch(viewType, "Present" = 10, 25)  # Could be a user input if we want
+AXIS_TITLE_SIZE <- switch(viewType, "Present" = 16, 12)
+AXIS_TEXT_SIZE <- switch(viewType, "Present" = 12, 8)
+
 
 MEASURES <- list(
   "1" = list(name = "Deaths", short_name = "Deaths"),
@@ -98,11 +101,14 @@ RiskByCausePlot <- function(data_in) {
                         )
               ) +
     geom_bar(stat = "identity", lwd=0.2, color="white") +
-    labs(x="", y=data_in$xlabel) +
+    labs(x="Risk Group", y=data_in$xlabel) +
     scale_fill_manual(name="Cause", values=BAR_PALETTE) +
     theme_classic() +
+    theme(axis.text.y = element_text(size = AXIS_TEXT_SIZE),
+          axis.text.x = element_text(size = AXIS_TEXT_SIZE),
+          axis.title = element_text(size = AXIS_TITLE_SIZE)) +
     #theme(legend.position = "right",legend.text = element_text(margin = margin(r = 10, unit = "pt")), legend.key.size = unit(4.0, 'cm')) +
-    coord_flip(ylim = c(0, max(data$total))) # keep as last ;)
+    coord_flip(ylim = c(0, max(data$total))) # keep as last 
   
   dev.off()
   ggplotly(p, tooltip="text") # %>% layout(legend = list(orientation = "v", x = 100000, size = 0.1))

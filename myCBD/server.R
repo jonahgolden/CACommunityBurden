@@ -309,7 +309,7 @@ output$trendData <- downloadHandler(
 )
 
 # IHME ----------------------------------------------------------------------------------------------------
-# Arrows Data and plot
+# Arrows data, titles, and plot
 output$arrowsTitles <- renderText({
   paste0('<div style="margin-bottom:-1em;">',
          '<h4 style="white-space:nowrap;">', paste(METRICS[[input$metric]]$name, "of", MEASURES[[input$measure]]$short_name, "for", SEXES[[input$sex]], "in all of California"), '</h4>',
@@ -335,7 +335,7 @@ output$network <- renderVisNetwork({
   vis_network(nodes_and_edges, input$display)
 })
 
-# RiskByCause Data and plot
+# RiskByCause data, title, and plot
 FilteredRiskByCause <- reactive({
   return(FilterRiskByCause(input$level, input$year, input$sex, input$metric, input$measure))
 })
