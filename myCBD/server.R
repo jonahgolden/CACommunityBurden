@@ -113,7 +113,7 @@ observe({
   if (current$tab == "hospitalDischargeTab") {
     myModal("YOU BETTER READ THIS!")
   }
-})  # Set once to TRUE to make it only happen once
+})
 
 
 # generates help "objects" used for "drop down" help buttons
